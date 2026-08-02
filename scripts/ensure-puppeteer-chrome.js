@@ -1,6 +1,8 @@
 'use strict';
 
 const fs = require('fs');
+const path = require('path');
+const os = require('os');
 const { execSync } = require('child_process');
 
 const WINDOWS_CHROME_PATHS = [
@@ -21,8 +23,43 @@ const LINUX_CHROME_PATHS = [
   '/snap/bin/chromium',
 ];
 
+function getPuppeteerCacheDir() {
+  if (process.env.PUPPETEER_CACHE_DIR) {
+    return process.env.PUPPETEER_CACHE_DIR;
+  }
+
+  if (process.env.RENDER) {
+    return path.join(process.cwd(), '.cache', 'puppeteer');
+  }
+
+  return path.join(os.homedir(), '.cache', 'puppeteer');
+}
+
 function pathExists(candidate) {
   return Boolean(candidate && fs.existsSync(candidate));
+}
+
+function getBundledChromeExecutables() {
+  const chromeCacheDir = path.join(getPuppeteerCacheDir(), 'chrome');
+  if (!fs.existsSync(chromeCacheDir)) {
+    return [];
+  }
+
+  const executables = [];
+  for (const entry of fs.readdirSync(chromeCacheDir)) {
+    const versionDir = path.join(chromeCacheDir, entry);
+    if (!fs.statSync(versionDir).isDirectory()) {
+      continue;
+    }
+
+    executables.push(
+      path.join(versionDir, 'chrome-linux64', 'chrome'),
+      path.join(versionDir, 'chrome-win64', 'chrome.exe'),
+      path.join(versionDir, 'chrome-mac', 'Chromium.app', 'Contents', 'MacOS', 'Chromium')
+    );
+  }
+
+  return executables;
 }
 
 function getPuppeteerChromePath() {
@@ -31,7 +68,7 @@ function getPuppeteerChromePath() {
     const bundledPath = puppeteer.executablePath();
     return pathExists(bundledPath) ? bundledPath : null;
   } catch {
-    return null;
+    return getBundledChromeExecutables().find(pathExists) || null;
   }
 }
 
@@ -49,9 +86,71 @@ function chromeIsAvailable() {
   return Boolean(getPuppeteerChromePath());
 }
 
+function removeCorruptedPuppeteerCache() {
+  const chromeCacheDir = path.join(getPuppeteerCacheDir(), 'chrome');
+  if (!fs.existsSync(chromeCacheDir)) {
+    return;
+  }
+
+  for (const entry of fs.readdirSync(chromeCacheDir)) {
+    const versionDir = path.join(chromeCacheDir, entry);
+    if (!fs.statSync(versionDir).isDirectory()) {
+      continue;
+    }
+
+    const bundledCandidates = [
+      path.join(versionDir, 'chrome-linux64', 'chrome'),
+      path.join(versionDir, 'chrome-win64', 'chrome.exe'),
+      path.join(versionDir, 'chrome-mac', 'Chromium.app', 'Contents', 'MacOS', 'Chromium'),
+    ];
+    const hasExecutable = bundledCandidates.some(pathExists);
+
+    if (!hasExecutable) {
+      console.log(`[postinstall] Removing incomplete Puppeteer cache: ${versionDir}`);
+      fs.rmSync(versionDir, { recursive: true, force: true });
+    }
+  }
+}
+
+function installPuppeteerChrome() {
+  const cacheDir = getPuppeteerCacheDir();
+  fs.mkdirSync(cacheDir, { recursive: true });
+
+  console.log(`[postinstall] Installing Puppeteer Chrome (cache: ${cacheDir})...`);
+  execSync('npx puppeteer browsers install chrome', {
+    stdio: 'inherit',
+    env: {
+      ...process.env,
+      PUPPETEER_CACHE_DIR: cacheDir,
+    },
+  });
+}
+
+function clearPuppeteerChromeCache() {
+  const chromeCacheDir = path.join(getPuppeteerCacheDir(), 'chrome');
+  if (fs.existsSync(chromeCacheDir)) {
+    console.log(`[postinstall] Clearing Puppeteer Chrome cache: ${chromeCacheDir}`);
+    fs.rmSync(chromeCacheDir, { recursive: true, force: true });
+  }
+}
+
+removeCorruptedPuppeteerCache();
+
 if (!chromeIsAvailable()) {
-  console.log('[postinstall] Chrome not found — installing Puppeteer Chrome...');
-  execSync('npx puppeteer browsers install chrome', { stdio: 'inherit' });
+  try {
+    installPuppeteerChrome();
+  } catch (err) {
+    console.warn('[postinstall] Chrome install failed, clearing cache and retrying once...');
+    clearPuppeteerChromeCache();
+    installPuppeteerChrome();
+  }
 } else {
   console.log('[postinstall] Chrome already available — skipping Puppeteer browser download.');
 }
+
+if (!chromeIsAvailable()) {
+  console.error('[postinstall] Chrome install completed but executable is still missing.');
+  process.exit(1);
+}
+
+console.log(`[postinstall] Chrome ready at: ${getPuppeteerChromePath()}`);

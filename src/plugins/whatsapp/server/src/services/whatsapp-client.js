@@ -1,5 +1,12 @@
 'use strict';
 
+const fs = require('fs');
+const path = require('path');
+
+if (process.env.RENDER && !process.env.PUPPETEER_CACHE_DIR) {
+  process.env.PUPPETEER_CACHE_DIR = path.join(process.cwd(), '.cache', 'puppeteer');
+}
+
 const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
 const QRCode = require('qrcode');
 const { randomUUID } = require('crypto');
