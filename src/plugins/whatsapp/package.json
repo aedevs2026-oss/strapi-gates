@@ -1,0 +1,26 @@
+{
+  "name": "strapi-plugin-whatsapp",
+  "version": "1.0.0",
+  "private": true,
+  "strapi": {
+    "name": "whatsapp",
+    "displayName": "WhatsApp",
+    "description": "WhatsApp messaging integrated in Strapi admin",
+    "kind": "plugin"
+  },
+  "exports": {
+    "./strapi-admin": {
+      "source": "./admin/src/index.js",
+      "import": "./admin/src/index.js",
+      "require": "./admin/src/index.js",
+      "default": "./admin/src/index.js"
+    },
+    "./strapi-server": {
+      "source": "./server/src/index.js",
+      "import": "./server/src/index.js",
+      "require": "./server/src/index.js",
+      "default": "./server/src/index.js"
+    },
+    "./package.json": "./package.json"
+  }
+}

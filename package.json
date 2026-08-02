@@ -1,0 +1,43 @@
+{
+  "name": "gates-admin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "School ERP Backend - Parent Mobile App APIs (Strapi v5)",
+  "scripts": {
+    "build": "strapi build",
+    "console": "strapi console",
+    "deploy": "strapi deploy",
+    "dev": "strapi develop",
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "strapi": "strapi",
+    "upgrade": "npx @strapi/upgrade latest",
+    "upgrade:dry": "npx @strapi/upgrade latest --dry",
+    "seed:student": "node scripts/seed-one-student.js",
+    "seed:student:reset": "node scripts/seed-one-student.js --reset"
+  },
+  "dependencies": {
+    "@strapi/plugin-cloud": "5.49.0",
+    "@strapi/plugin-users-permissions": "5.49.0",
+    "@strapi/strapi": "5.49.0",
+    "firebase-admin": "^13.0.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.22.5",
+    "pg": "^8.13.1",
+    "qrcode": "^1.5.4",
+    "razorpay": "^2.9.5",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.0.0",
+    "styled-components": "^6.0.0",
+    "whatsapp-web.js": "^1.26.0"
+  },
+  "engines": {
+    "node": ">=20.0.0 <=26.x.x",
+    "npm": ">=6.0.0"
+  },
+  "strapi": {
+    "uuid": "32160ef6-bec2-474a-9643-ef4f72a73d27",
+    "installId": "aec4ba18157828fc61d29953b04975f315be7e98473ccc9cd9d26d4dd6e244e0"
+  }
+}

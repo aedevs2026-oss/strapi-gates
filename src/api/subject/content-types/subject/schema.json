@@ -1,0 +1,71 @@
+{
+  "kind": "collectionType",
+  "collectionName": "subjects",
+  "info": {
+    "singularName": "subject",
+    "pluralName": "subjects",
+    "displayName": "Subject",
+    "description": "Academic subjects"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "subjectName": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "teachers": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::teacher.teacher",
+      "mappedBy": "subjects"
+    },
+    "classes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::class.class",
+      "inversedBy": "subjects"
+    },
+    "homeworks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::homework.homework",
+      "mappedBy": "subject"
+    },
+    "timetables": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::timetable.timetable",
+      "mappedBy": "subject"
+    },
+    "examSchedules": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::exam-schedule.exam-schedule",
+      "mappedBy": "subject"
+    },
+    "examResults": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::exam-result.exam-result",
+      "mappedBy": "subject"
+    },
+    "teacherAssignments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::teacher-assignment.teacher-assignment",
+      "mappedBy": "subject"
+    }
+  }
+}

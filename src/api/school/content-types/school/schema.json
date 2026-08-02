@@ -1,0 +1,47 @@
+{
+  "kind": "singleType",
+  "collectionName": "schools",
+  "info": {
+    "singularName": "school",
+    "pluralName": "schools",
+    "displayName": "School",
+    "description": "School profile and branding information"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "schoolName": {
+      "type": "string",
+      "required": true
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "address": {
+      "type": "text"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "website": {
+      "type": "string"
+    },
+    "principal": {
+      "type": "string"
+    },
+    "brandPrimaryColor": {
+      "type": "string",
+      "default": "#5E2A84"
+    },
+    "brandSecondaryColor": {
+      "type": "string",
+      "default": "#F4B400"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "teacher_assignments",
+  "info": {
+    "singularName": "teacher-assignment",
+    "pluralName": "teacher-assignments",
+    "displayName": "Teacher Assignment",
+    "description": "Maps teachers to class and subject for an academic year"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "teacher": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::teacher.teacher",
+      "inversedBy": "teacherAssignments",
+      "required": true
+    },
+    "class": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::class.class",
+      "inversedBy": "teacherAssignments",
+      "required": true
+    },
+    "subject": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::subject.subject",
+      "inversedBy": "teacherAssignments",
+      "required": true
+    },
+    "academicYear": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::academic-year.academic-year",
+      "inversedBy": "teacherAssignments",
+      "required": true
+    }
+  }
+}

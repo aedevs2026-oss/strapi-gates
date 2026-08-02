@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "exams",
+  "info": {
+    "singularName": "exam",
+    "pluralName": "exams",
+    "displayName": "Exam",
+    "description": "Exam definitions"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "examName": {
+      "type": "string",
+      "required": true
+    },
+    "class": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::class.class",
+      "inversedBy": "exams"
+    },
+    "academicYear": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::academic-year.academic-year",
+      "inversedBy": "exams"
+    },
+    "schedules": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::exam-schedule.exam-schedule",
+      "mappedBy": "exam"
+    },
+    "results": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::exam-result.exam-result",
+      "mappedBy": "exam"
+    }
+  }
+}

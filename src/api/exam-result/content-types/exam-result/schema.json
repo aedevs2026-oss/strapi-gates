@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "exam_results",
+  "info": {
+    "singularName": "exam-result",
+    "pluralName": "exam-results",
+    "displayName": "Exam Result",
+    "description": "Student exam results by subject"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "student": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::student.student",
+      "inversedBy": "examResults",
+      "required": true
+    },
+    "exam": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::exam.exam",
+      "inversedBy": "results",
+      "required": true
+    },
+    "subject": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::subject.subject",
+      "inversedBy": "examResults",
+      "required": true
+    },
+    "marks": {
+      "type": "decimal",
+      "required": true
+    },
+    "maxMarks": {
+      "type": "decimal"
+    },
+    "grade": {
+      "type": "string"
+    },
+    "remarks": {
+      "type": "string"
+    }
+  }
+}

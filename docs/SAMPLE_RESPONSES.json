@@ -1,0 +1,177 @@
+{
+  "sendOtp": {
+    "data": {
+      "message": "OTP sent successfully",
+      "mobileNumber": "9876543210",
+      "expiresInMinutes": 5
+    },
+    "meta": {}
+  },
+  "verifyOtp": {
+    "data": {
+      "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkb2N1bWVudElkIjoicGFyZW50MDAxIiwibW9iaWxlTnVtYmVyIjoiOTg3NjU0MzIxMCIsInR5cGUiOiJwYXJlbnQiLCJpYXQiOjE3MTIwMDAwMDAsImV4cCI6MTcxNDU5MjAwMH0.xxxxx",
+      "parent": {
+        "documentId": "parent001",
+        "fatherName": "Rajesh Kumar",
+        "motherName": "Priya Kumar",
+        "guardianName": null,
+        "mobileNumber": "9876543210",
+        "email": "rajesh.kumar@email.com",
+        "students": [
+          {
+            "documentId": "student001",
+            "admissionNumber": "ADM2024001",
+            "rollNumber": "12",
+            "studentName": "Aarav Kumar",
+            "dob": "2015-03-15",
+            "gender": "male",
+            "bloodGroup": "B+",
+            "status": "active",
+            "class": { "documentId": "class005", "className": "Class 5" },
+            "section": { "documentId": "sectionA", "name": "A" }
+          }
+        ]
+      }
+    },
+    "meta": {}
+  },
+  "students": {
+    "data": [
+      {
+        "documentId": "student001",
+        "admissionNumber": "ADM2024001",
+        "rollNumber": "12",
+        "studentName": "Aarav Kumar",
+        "dob": "2015-03-15",
+        "gender": "male",
+        "bloodGroup": "B+",
+        "status": "active",
+        "photo": { "url": "/uploads/aarav_photo_abc123.jpg" },
+        "class": { "className": "Class 5" },
+        "section": { "name": "A" }
+      }
+    ],
+    "meta": { "total": 1 }
+  },
+  "homework": {
+    "data": [
+      {
+        "documentId": "hw001",
+        "title": "Math Chapter 5 — Exercise 1-10",
+        "description": "Complete all questions from textbook page 45-47",
+        "dueDate": "2026-04-01T23:59:00.000Z",
+        "status": "published",
+        "subject": { "name": "Mathematics", "code": "MATH5" },
+        "teacher": { "name": "Mr. Ravi Sharma" },
+        "class": { "className": "Class 5" },
+        "attachmentPdf": { "url": "/uploads/hw_math_ch5.pdf", "name": "hw_math_ch5.pdf" }
+      }
+    ],
+    "meta": { "pagination": { "start": 0, "limit": 25, "total": 3, "page": 1 } }
+  },
+  "attendance": {
+    "data": [
+      { "documentId": "att001", "date": "2026-03-28", "status": "present", "remarks": null },
+      { "documentId": "att002", "date": "2026-03-27", "status": "absent", "remarks": "Medical leave" }
+    ],
+    "meta": {
+      "pagination": { "start": 0, "limit": 25, "total": 22 },
+      "stats": { "present": 18, "absent": 2, "late": 1, "half_day": 1, "leave": 0, "total": 22 }
+    }
+  },
+  "examResults": {
+    "data": [
+      {
+        "documentId": "result001",
+        "marks": 85,
+        "maxMarks": 100,
+        "grade": "A",
+        "remarks": "Excellent performance",
+        "subject": { "name": "Mathematics" },
+        "exam": { "examName": "Mid Term Examination 2026" }
+      },
+      {
+        "documentId": "result002",
+        "marks": 78,
+        "maxMarks": 100,
+        "grade": "B+",
+        "remarks": null,
+        "subject": { "name": "English" },
+        "exam": { "examName": "Mid Term Examination 2026" }
+      }
+    ],
+    "meta": {}
+  },
+  "pendingFees": {
+    "data": [
+      {
+        "documentId": "fee001",
+        "feeType": "Tuition Fee - Term 2",
+        "totalAmount": 50000,
+        "discount": 5000,
+        "paidAmount": 20000,
+        "pendingAmount": 25000,
+        "dueDate": "2026-04-15",
+        "status": "partial",
+        "student": { "studentName": "Aarav Kumar", "admissionNumber": "ADM2024001" },
+        "academicYear": { "name": "2025-2026", "status": "active" }
+      }
+    ],
+    "meta": { "totalPending": 25000 }
+  },
+  "createOrder": {
+    "data": {
+      "orderId": "order_QmXxXxXxXxXxXx",
+      "amount": 25000,
+      "currency": "INR",
+      "keyId": "rzp_test_xxxxxxxx",
+      "paymentDocumentId": "payment001",
+      "fee": { "documentId": "fee001", "pendingAmount": 25000 }
+    },
+    "meta": {}
+  },
+  "verifyPayment": {
+    "data": {
+      "message": "Payment verified successfully",
+      "receiptNumber": "RCP-20260401-A1B2C3",
+      "payment": {
+        "documentId": "payment001",
+        "amount": 25000,
+        "status": "success",
+        "transactionId": "pay_QmYyYyYyYyYyYy",
+        "paymentDate": "2026-04-01T10:30:00.000Z",
+        "receiptNumber": "RCP-20260401-A1B2C3"
+      }
+    },
+    "meta": {}
+  },
+  "schoolInfo": {
+    "data": {
+      "schoolName": "Gates International School",
+      "address": "123 Education Lane, New Delhi 110001",
+      "phone": "+91-11-23456789",
+      "email": "info@gatesinternational.edu",
+      "website": "https://gatesinternational.edu",
+      "principal": "Dr. Sunita Verma",
+      "brandPrimaryColor": "#5E2A84",
+      "brandSecondaryColor": "#F4B400",
+      "logo": { "url": "/uploads/school_logo.png" }
+    },
+    "meta": {}
+  },
+  "errorBadRequest": {
+    "error": {
+      "status": 400,
+      "name": "BadRequestError",
+      "message": "Invalid mobile number. Enter a valid 10-digit Indian mobile number.",
+      "details": null
+    }
+  },
+  "errorUnauthorized": {
+    "error": {
+      "status": 401,
+      "name": "UnauthorizedError",
+      "message": "Unauthorized"
+    }
+  }
+}

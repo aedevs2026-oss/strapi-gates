@@ -1,0 +1,186 @@
+# Deployment Guide
+
+## Production Checklist
+
+- [ ] Generate strong secrets for all JWT/encryption keys
+- [ ] Set `NODE_ENV=production`
+- [ ] Set `OTP_DEV_MODE=false`
+- [ ] Configure PostgreSQL with SSL
+- [ ] Set up Razorpay live keys
+- [ ] Configure Firebase service account
+- [ ] Configure SMS gateway for OTP (MSG91/Twilio)
+- [ ] Set restrictive `CORS_ORIGINS`
+- [ ] Enable HTTPS reverse proxy (Nginx/Caddy)
+- [ ] Set up database backups
+- [ ] Configure log aggregation
+
+## Environment Variables (Production)
+
+```env
+NODE_ENV=production
+HOST=0.0.0.0
+PORT=1337
+
+APP_KEYS=<4-random-strings>
+ADMIN_JWT_SECRET=<random-64-chars>
+JWT_SECRET=<random-64-chars>
+PARENT_JWT_SECRET=<random-64-chars>
+API_TOKEN_SALT=<random-string>
+TRANSFER_TOKEN_SALT=<random-string>
+ENCRYPTION_KEY=<random-32-chars>
+
+DATABASE_CLIENT=postgres
+DATABASE_HOST=your-db-host
+DATABASE_PORT=5432
+DATABASE_NAME=school_erp
+DATABASE_USERNAME=school_erp_user
+DATABASE_PASSWORD=<strong-password>
+DATABASE_SSL=true
+
+OTP_DEV_MODE=false
+OTP_EXPIRY_MINUTES=5
+
+RAZORPAY_KEY_ID=rzp_live_xxxxx
+RAZORPAY_KEY_SECRET=<live-secret>
+
+FIREBASE_PROJECT_ID=your-project
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk@...
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+
+CORS_ORIGINS=https://yourdomain.com
+```
+
+Generate secrets:
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+```
+
+## Build & Start
+
+```bash
+npm ci --omit=dev
+npm run build
+npm run start
+```
+
+## Docker (Optional)
+
+```dockerfile
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --omit=dev
+COPY . .
+RUN npm run build
+EXPOSE 1337
+CMD ["npm", "run", "start"]
+```
+
+```yaml
+# docker-compose.yml
+services:
+  strapi:
+    build: .
+    ports:
+      - "1337:1337"
+    env_file: .env
+    depends_on:
+      - postgres
+    volumes:
+      - uploads:/app/public/uploads
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: school_erp
+      POSTGRES_USER: school_erp_user
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+  uploads:
+```
+
+## Nginx Reverse Proxy
+
+```nginx
+server {
+    listen 443 ssl http2;
+    server_name api.yourschool.com;
+
+    ssl_certificate     /etc/ssl/certs/fullchain.pem;
+    ssl_certificate_key /etc/ssl/private/privkey.pem;
+
+    client_max_body_size 10M;
+
+    location / {
+        proxy_pass http://127.0.0.1:1337;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+## PostgreSQL Setup
+
+```sql
+CREATE USER school_erp_user WITH PASSWORD 'your_password';
+CREATE DATABASE school_erp OWNER school_erp_user;
+GRANT ALL PRIVILEGES ON DATABASE school_erp TO school_erp_user;
+```
+
+## Process Manager (PM2)
+
+```bash
+npm install -g pm2
+pm2 start npm --name "school-erp" -- start
+pm2 save
+pm2 startup
+```
+
+## Database Backups
+
+```bash
+# Daily cron
+pg_dump -h localhost -U school_erp_user school_erp | gzip > backup_$(date +%Y%m%d).sql.gz
+```
+
+## Monitoring
+
+- Health check: `GET /_health` (Strapi built-in)
+- Monitor PostgreSQL connections and disk usage
+- Set up alerts for 5xx error rates
+- Monitor Razorpay webhook failures
+
+## SMS Integration (OTP Production)
+
+Replace the log placeholder in `src/api/auth/controllers/auth.js` with your SMS provider:
+
+```javascript
+// Example: MSG91
+await fetch('https://api.msg91.com/api/v5/flow/', {
+  method: 'POST',
+  headers: {
+    authkey: process.env.MSG91_AUTH_KEY,
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    template_id: process.env.MSG91_OTP_TEMPLATE,
+    recipients: [{ mobiles: `91${normalized}`, var: otp }],
+  }),
+});
+```
+
+## Scaling Notes
+
+- Run Strapi in cluster mode with shared PostgreSQL
+- Use S3/Cloudinary for media uploads in multi-instance setups
+- Move OTP storage to Redis for high-throughput auth
+- Use Redis for rate limiting in distributed deployments

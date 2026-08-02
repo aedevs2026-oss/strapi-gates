@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "attendances",
+  "info": {
+    "singularName": "attendance",
+    "pluralName": "attendances",
+    "displayName": "Attendance",
+    "description": "Daily student attendance records"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "student": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::student.student",
+      "inversedBy": "attendances",
+      "required": true
+    },
+    "date": {
+      "type": "date",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["present", "absent", "late", "half_day", "leave"],
+      "required": true
+    },
+    "remarks": {
+      "type": "string"
+    }
+  }
+}

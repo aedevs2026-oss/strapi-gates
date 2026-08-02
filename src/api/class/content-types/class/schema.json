@@ -1,0 +1,82 @@
+{
+  "kind": "collectionType",
+  "collectionName": "classes",
+  "info": {
+    "singularName": "class",
+    "pluralName": "classes",
+    "displayName": "Class",
+    "description": "School classes / grades"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "className": {
+      "type": "string",
+      "required": true
+    },
+    "section": {
+      "type": "string"
+    },
+    "classTeacher": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::teacher.teacher",
+      "inversedBy": "classesAsTeacher"
+    },
+    "classIncharges": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::teacher.teacher",
+      "inversedBy": "inchargeClasses"
+    },
+    "academicYear": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::academic-year.academic-year",
+      "inversedBy": "classes"
+    },
+    "sections": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::section.section",
+      "mappedBy": "class"
+    },
+    "subjects": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::subject.subject",
+      "mappedBy": "classes"
+    },
+    "students": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::student.student",
+      "mappedBy": "class"
+    },
+    "homeworks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::homework.homework",
+      "mappedBy": "class"
+    },
+    "timetables": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::timetable.timetable",
+      "mappedBy": "class"
+    },
+    "exams": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::exam.exam",
+      "mappedBy": "class"
+    },
+    "teacherAssignments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::teacher-assignment.teacher-assignment",
+      "mappedBy": "class"
+    }
+  }
+}

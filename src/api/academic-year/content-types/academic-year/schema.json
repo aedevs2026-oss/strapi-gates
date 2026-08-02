@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "academic_years",
+  "info": {
+    "singularName": "academic-year",
+    "pluralName": "academic-years",
+    "displayName": "Academic Year",
+    "description": "Academic year periods"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "startDate": {
+      "type": "date",
+      "required": true
+    },
+    "endDate": {
+      "type": "date",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["upcoming", "active", "completed"],
+      "default": "upcoming",
+      "required": true
+    },
+    "classes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::class.class",
+      "mappedBy": "academicYear"
+    },
+    "exams": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::exam.exam",
+      "mappedBy": "academicYear"
+    },
+    "fees": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::fee.fee",
+      "mappedBy": "academicYear"
+    },
+    "teacherAssignments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::teacher-assignment.teacher-assignment",
+      "mappedBy": "academicYear"
+    }
+  }
+}

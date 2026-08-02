@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusCare - Golden Gates</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .otp-input:focus {
+            border-color: #7d40b1;
+            box-shadow: 0 0 0 2px rgba(125, 64, 177, 0.2);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(224, 215, 237, 0.5);
+        }
+        .screen-transition {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+        }
+        .hidden-screen {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        .active-screen {
+            display: flex;
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-background": "#1b1b21",
+                      "on-error": "#ffffff",
+                      "secondary-fixed-dim": "#fdbc13",
+                      "surface": "#fcf8ff",
+                      "tertiary-container": "#5e1292",
+                      "on-primary": "#ffffff",
+                      "on-primary-container": "#cc90ff",
+                      "inverse-on-surface": "#f3eff8",
+                      "surface-tint": "#7d40b1",
+                      "primary-fixed": "#f1daff",
+                      "on-surface": "#1b1b21",
+                      "on-secondary-fixed-variant": "#5d4200",
+                      "error": "#ba1a1a",
+                      "outline": "#7e7482",
+                      "on-tertiary-fixed": "#2e004e",
+                      "on-secondary-fixed": "#261900",
+                      "on-error-container": "#93000a",
+                      "surface-container-highest": "#e5e1ea",
+                      "primary": "#40006d",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-primary": "#dfb7ff",
+                      "surface-container-high": "#eae7ef",
+                      "tertiary-fixed-dim": "#e1b6ff",
+                      "surface-variant": "#e5e1ea",
+                      "surface-dim": "#dcd8e1",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-container": "#ce8fff",
+                      "primary-fixed-dim": "#dfb7ff",
+                      "on-secondary": "#ffffff",
+                      "secondary-fixed": "#ffdea3",
+                      "secondary-container": "#fdbc13",
+                      "secondary": "#7a5900",
+                      "surface-container": "#f0ecf5",
+                      "outline-variant": "#cfc2d3",
+                      "on-primary-fixed-variant": "#642597",
+                      "on-tertiary-fixed-variant": "#671f9b",
+                      "background": "#fcf8ff",
+                      "surface-container-low": "#f6f2fb",
+                      "error-container": "#ffdad6",
+                      "primary-container": "#5b1a8e",
+                      "on-primary-fixed": "#2d004f",
+                      "on-surface-variant": "#4c4451",
+                      "surface-bright": "#fcf8ff",
+                      "tertiary": "#41006b",
+                      "tertiary-fixed": "#f2daff",
+                      "on-secondary-container": "#6b4d00",
+                      "inverse-surface": "#303036"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sm": "12px",
+                      "lg": "24px",
+                      "xs": "8px",
+                      "md": "16px",
+                      "base": "4px",
+                      "xl": "32px",
+                      "container-padding": "20px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Be Vietnam Pro"],
+                      "label-lg": ["Be Vietnam Pro"],
+                      "headline-md": ["Be Vietnam Pro"],
+                      "title-lg": ["Be Vietnam Pro"],
+                      "body-md": ["Be Vietnam Pro"],
+                      "headline-sm": ["Be Vietnam Pro"],
+                      "label-md": ["Be Vietnam Pro"],
+                      "display-lg": ["Be Vietnam Pro"]
+              },
+              "fontSize": {
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "label-md": ["11px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-lg overflow-x-hidden">
+<!-- SCREEN 1: WELCOME SCREEN -->
+<section class="active-screen flex-col items-center justify-between min-h-screen relative overflow-hidden bg-gradient-to-br from-primary via-primary-container to-tertiary-container px-container-padding py-xl text-white" id="welcome-screen">
+<!-- Background Decoration -->
+<div class="absolute top-[-10%] right-[-10%] w-64 h-64 bg-secondary-fixed opacity-10 rounded-full blur-3xl"></div>
+<div class="absolute bottom-[-5%] left-[-5%] w-80 h-80 bg-primary-fixed opacity-10 rounded-full blur-3xl"></div>
+<div class="flex-1 flex flex-col items-center justify-center space-y-lg text-center z-10 w-full max-w-md">
+<div class="w-32 h-32 bg-white/10 backdrop-blur-md rounded-3xl p-6 shadow-2xl border border-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-[64px] text-secondary-fixed" data-icon="school_crest" style="font-variation-settings: 'FILL' 1;">school</span>
+</div>
+<div class="space-y-sm">
+<h1 class="font-display-lg text-display-lg font-bold tracking-tight text-white">Golden Gates</h1>
+<p class="font-title-lg text-title-lg text-primary-fixed opacity-90 leading-snug">Matric Hr. Sec. School</p>
+<div class="h-1 w-12 bg-secondary-fixed mx-auto rounded-full mt-2"></div>
+</div>
+</div>
+<div class="w-full max-w-md space-y-lg z-10 pb-xl">
+<div class="space-y-base text-center">
+<p class="font-body-md text-body-md text-primary-fixed/80">Premium education management for digital-native parents.</p>
+</div>
+<button class="w-full h-14 bg-secondary-fixed text-on-secondary-fixed font-title-lg text-title-lg rounded-full shadow-[0px_8px_30px_rgba(253,188,19,0.25)] flex items-center justify-center group active:scale-95 transition-all" onclick="navigateTo('login-screen')">
+<span>Get Started</span>
+<span class="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- SCREEN 2: LOGIN SCREEN -->
+<section class="hidden-screen flex-col items-center justify-between min-h-screen bg-surface px-container-padding py-xl" id="login-screen">
+<div class="w-full max-w-md space-y-xl">
+<div class="flex flex-col space-y-md pt-lg">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors" onclick="navigateTo('welcome-screen')">
+<span class="material-symbols-outlined text-on-surface" data-icon="arrow_back">arrow_back</span>
+</button>
+<div class="space-y-xs">
+<h2 class="font-headline-md text-headline-md text-primary">Parent Login</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Enter your registered mobile number to access your child's profile.</p>
+</div>
+</div>
+<div class="space-y-lg">
+<div class="flex flex-col space-y-sm">
+<label class="font-label-lg text-label-lg text-primary uppercase tracking-widest px-1">Mobile Number</label>
+<div class="flex items-center bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
+<div class="flex items-center px-4 border-r border-outline-variant bg-surface-container h-14 space-x-1">
+<span class="font-title-lg text-on-surface">+91</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="expand_more">expand_more</span>
+</div>
+<input class="flex-1 h-14 px-4 bg-transparent border-none focus:ring-0 font-body-lg text-on-surface placeholder:text-outline-variant" placeholder="Enter 10 digit number" type="tel"/>
+</div>
+</div>
+<button class="w-full h-14 bg-primary text-white font-title-lg text-title-lg rounded-full shadow-[0px_4px_20px_rgba(91,26,142,0.1)] active:scale-95 transition-all" onclick="navigateTo('otp-screen')">
+                    Continue
+                </button>
+</div>
+</div>
+<div class="flex flex-col items-center space-y-xs opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+<span class="font-label-md text-label-md text-on-surface-variant">Powered by</span>
+<div class="flex items-center space-x-1">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="hub">hub</span>
+<span class="font-title-lg text-title-lg text-primary font-bold tracking-tight">CampusCare</span>
+</div>
+</div>
+</section>
+<!-- SCREEN 3: OTP SCREEN -->
+<section class="hidden-screen flex-col items-center justify-between min-h-screen bg-surface px-container-padding py-xl" id="otp-screen">
+<div class="w-full max-w-md space-y-xl">
+<div class="flex flex-col space-y-md pt-lg">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors" onclick="navigateTo('login-screen')">
+<span class="material-symbols-outlined text-on-surface" data-icon="arrow_back">arrow_back</span>
+</button>
+<div class="space-y-xs">
+<h2 class="font-headline-md text-headline-md text-primary">Verify Identity</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">We've sent a 6-digit code to <span class="font-bold text-on-surface">+91 98XXX XXX10</span></p>
+</div>
+</div>
+<div class="space-y-xl">
+<div class="grid grid-cols-6 gap-2 sm:gap-4">
+<input class="otp-input w-full h-12 sm:h-14 bg-surface-container-low border border-outline-variant rounded-lg text-center font-display-lg text-display-lg text-primary focus:outline-none transition-all" maxlength="1" type="text"/>
+<input class="otp-input w-full h-12 sm:h-14 bg-surface-container-low border border-outline-variant rounded-lg text-center font-display-lg text-display-lg text-primary focus:outline-none transition-all" maxlength="1" type="text"/>
+<input class="otp-input w-full h-12 sm:h-14 bg-surface-container-low border border-outline-variant rounded-lg text-center font-display-lg text-display-lg text-primary focus:outline-none transition-all" maxlength="1" type="text"/>
+<input class="otp-input w-full h-12 sm:h-14 bg-surface-container-low border border-outline-variant rounded-lg text-center font-display-lg text-display-lg text-primary focus:outline-none transition-all" maxlength="1" type="text"/>
+<input class="otp-input w-full h-12 sm:h-14 bg-surface-container-low border border-outline-variant rounded-lg text-center font-display-lg text-display-lg text-primary focus:outline-none transition-all" maxlength="1" type="text"/>
+<input class="otp-input w-full h-12 sm:h-14 bg-surface-container-low border border-outline-variant rounded-lg text-center font-display-lg text-display-lg text-primary focus:outline-none transition-all" maxlength="1" type="text"/>
+</div>
+<div class="flex flex-col space-y-lg">
+<button class="w-full h-14 bg-primary text-white font-title-lg text-title-lg rounded-full shadow-[0px_4px_20px_rgba(91,26,142,0.1)] active:scale-95 transition-all" id="verify-btn">
+                        Verify &amp; Login
+                    </button>
+<div class="text-center">
+<button class="font-label-lg text-label-lg text-primary-container font-semibold hover:underline">
+                            Resend Code in 0:29
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Supportive Info Card -->
+<div class="glass-card w-full max-w-sm p-4 rounded-2xl flex items-center space-x-md mb-xl">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-fixed-variant" data-icon="help_center">help_center</span>
+</div>
+<div class="flex-1">
+<h4 class="font-label-lg text-label-lg text-on-surface">Having trouble?</h4>
+<p class="font-body-md text-label-md text-on-surface-variant">Contact school administration at support@ggms.edu</p>
+</div>
+</div>
+</section>
+<script>
+        function navigateTo(screenId) {
+            const screens = ['welcome-screen', 'login-screen', 'otp-screen'];
+            screens.forEach(id => {
+                const el = document.getElementById(id);
+                if (id === screenId) {
+                    el.classList.remove('hidden-screen');
+                    el.classList.add('active-screen');
+                } else {
+                    el.classList.remove('active-screen');
+                    el.classList.add('hidden-screen');
+                }
+            });
+        }
+
+        // OTP Input Auto-focus logic
+        const inputs = document.querySelectorAll('.otp-input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value.length === 0 && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        // Micro-interaction for primary button
+        document.getElementById('verify-btn').addEventListener('click', function() {
+            this.innerHTML = `<span class="material-symbols-outlined animate-spin" data-icon="progress_activity">progress_activity</span>`;
+            setTimeout(() => {
+                this.innerHTML = `<span class="material-symbols-outlined text-white" data-icon="check_circle">check_circle</span>`;
+                this.classList.replace('bg-primary', 'bg-green-600');
+                // Normally redirect to dashboard here
+            }, 1200);
+        });
+    </script>
+</body></html>

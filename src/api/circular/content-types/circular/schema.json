@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "circulars",
+  "info": {
+    "singularName": "circular",
+    "pluralName": "circulars",
+    "displayName": "Circular",
+    "description": "School circulars and announcements"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "pdf": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["files"]
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "publishDate": {
+      "type": "datetime",
+      "required": true
+    },
+    "target": {
+      "type": "enumeration",
+      "enum": ["all", "parents", "teachers", "staff", "specific_class"],
+      "default": "parents"
+    },
+    "targetClass": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::class.class"
+    },
+    "priority": {
+      "type": "enumeration",
+      "enum": ["low", "normal", "high", "urgent"],
+      "default": "normal"
+    }
+  }
+}

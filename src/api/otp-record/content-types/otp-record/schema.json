@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "otp_records",
+  "info": {
+    "singularName": "otp-record",
+    "pluralName": "otp-records",
+    "displayName": "OTP Record",
+    "description": "Temporary OTP storage for mobile login"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "mobileNumber": {
+      "type": "string",
+      "required": true
+    },
+    "otp": {
+      "type": "string",
+      "required": true,
+      "private": true
+    },
+    "expiresAt": {
+      "type": "datetime",
+      "required": true
+    },
+    "verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "attempts": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

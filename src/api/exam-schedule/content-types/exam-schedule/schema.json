@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "exam_schedules",
+  "info": {
+    "singularName": "exam-schedule",
+    "pluralName": "exam-schedules",
+    "displayName": "Exam Schedule",
+    "description": "Subject-wise exam schedule"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "exam": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::exam.exam",
+      "inversedBy": "schedules",
+      "required": true
+    },
+    "subject": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::subject.subject",
+      "inversedBy": "examSchedules",
+      "required": true
+    },
+    "date": {
+      "type": "date",
+      "required": true
+    },
+    "time": {
+      "type": "time",
+      "required": true
+    },
+    "duration": {
+      "type": "integer",
+      "required": true
+    },
+    "durationUnit": {
+      "type": "enumeration",
+      "enum": ["minutes", "hours"],
+      "default": "minutes"
+    },
+    "room": {
+      "type": "string"
+    }
+  }
+}

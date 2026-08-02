@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#1b1b21",
+                    "on-error": "#ffffff",
+                    "secondary-fixed-dim": "#fdbc13",
+                    "surface": "#fcf8ff",
+                    "tertiary-container": "#5e1292",
+                    "on-primary": "#ffffff",
+                    "on-primary-container": "#cc90ff",
+                    "inverse-on-surface": "#f3eff8",
+                    "surface-tint": "#7d40b1",
+                    "primary-fixed": "#f1daff",
+                    "on-surface": "#1b1b21",
+                    "on-secondary-fixed-variant": "#5d4200",
+                    "error": "#ba1a1a",
+                    "outline": "#7e7482",
+                    "on-tertiary-fixed": "#2e004e",
+                    "on-secondary-fixed": "#261900",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#e5e1ea",
+                    "primary": "#40006d",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#dfb7ff",
+                    "surface-container-high": "#eae7ef",
+                    "tertiary-fixed-dim": "#e1b6ff",
+                    "surface-variant": "#e5e1ea",
+                    "surface-dim": "#dcd8e1",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-container": "#ce8fff",
+                    "primary-fixed-dim": "#dfb7ff",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#ffdea3",
+                    "secondary-container": "#fdbc13",
+                    "secondary": "#7a5900",
+                    "surface-container": "#f0ecf5",
+                    "outline-variant": "#cfc2d3",
+                    "on-primary-fixed-variant": "#642597",
+                    "on-tertiary-fixed-variant": "#671f9b",
+                    "background": "#fcf8ff",
+                    "surface-container-low": "#f6f2fb",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#5b1a8e",
+                    "on-primary-fixed": "#2d004f",
+                    "on-surface-variant": "#4c4451",
+                    "surface-bright": "#fcf8ff",
+                    "tertiary": "#41006b",
+                    "tertiary-fixed": "#f2daff",
+                    "on-secondary-container": "#6b4d00",
+                    "inverse-surface": "#303036"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "lg": "24px",
+                    "xs": "8px",
+                    "md": "16px",
+                    "base": "4px",
+                    "xl": "32px",
+                    "container-padding": "20px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Be Vietnam Pro"],
+                    "label-lg": ["Be Vietnam Pro"],
+                    "headline-md": ["Be Vietnam Pro"],
+                    "title-lg": ["Be Vietnam Pro"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "headline-sm": ["Be Vietnam Pro"],
+                    "label-md": ["Be Vietnam Pro"],
+                    "display-lg": ["Be Vietnam Pro"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["11px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(224, 215, 237, 0.5);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim shadow-[0px_4px_20px_rgba(91,26,142,0.05)] flex justify-between items-center px-container-padding w-full h-14 sticky top-0 z-50">
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-on-primary-container" style="font-size: 20px;">school</span>
+</div>
+<h1 class="font-display-lg text-title-lg font-bold text-primary dark:text-primary-fixed">Golden Gates</h1>
+</div>
+<div class="flex items-center gap-sm">
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed p-xs hover:bg-surface-container-high transition-colors rounded-full">notifications</button>
+</div>
+</header>
+<main class="flex-grow px-container-padding pt-lg pb-32 space-y-lg max-w-2xl mx-auto w-full">
+<!-- Header Image Section -->
+<div class="relative w-full h-48 rounded-xl overflow-hidden shadow-sm">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent z-10"></div>
+<div class="absolute inset-0" data-alt="A premium educational setting featuring a blurred background of a modern school hallway with warm sunlight filtering through large windows. The scene is elegant and high-end, using the Royal Purple brand colors in soft shadows and highlights to create a nurturing yet professional institutional atmosphere for a fee management module." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDk-cS6y1-VLU1TACOSTpFrH75ZYan3bpNZ2ArhBuQ9JwNyZjjKrv-Nzyc28u2LdXDyY7heRrOckuunaNypUmTkCA8PVqiFM8ApmXDiZ_w0mntiHv5vnQuiJAL9Kk5QPUeVR-wZG7ePlRqmVFLguX0dvgmcZGmRx2UIJmTpgeQizdJQltjkuBjEBnOR5MdrKZsDoquFSN8nFo7TkO98NinIoKwvB11tBTTSWRfFJU7g8ZVBwv7BVE0ye_R6IiCoREUAT6fDuy_3IXb1')"></div>
+<div class="absolute bottom-md left-md z-20">
+<h2 class="font-headline-md text-white">Fee Dashboard</h2>
+<p class="font-body-md text-primary-fixed">Academic Year 2023-24</p>
+</div>
+</div>
+<!-- Top Summary Card -->
+<section class="glass-card rounded-xl p-lg shadow-[0px_4px_20px_rgba(91,26,142,0.05)] space-y-md">
+<div class="flex justify-between items-end">
+<div>
+<span class="font-label-lg text-outline uppercase tracking-wider">Remaining Balance</span>
+<h3 class="font-display-lg text-primary text-[36px] leading-tight">₹ 12,450.00</h3>
+</div>
+<div class="text-right">
+<span class="font-label-md text-secondary font-bold bg-secondary-fixed/30 px-sm py-1 rounded-full">Due in 5 days</span>
+</div>
+</div>
+<!-- Fee Progress Bar -->
+<div class="space-y-xs">
+<div class="flex justify-between font-label-md text-on-surface-variant">
+<span>Paid: ₹ 37,550.00</span>
+<span>Total: ₹ 50,000.00</span>
+</div>
+<div class="w-full h-3 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed-dim rounded-full" style="width: 75.1%;"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md pt-sm">
+<div class="p-md rounded-lg bg-surface-container-low border border-outline-variant/30">
+<p class="font-label-md text-on-surface-variant">Last Payment</p>
+<p class="font-title-lg text-primary">₹ 8,500.00</p>
+</div>
+<div class="p-md rounded-lg bg-surface-container-low border border-outline-variant/30">
+<p class="font-label-md text-on-surface-variant">Due Date</p>
+<p class="font-title-lg text-primary">15 Oct</p>
+</div>
+</div>
+<button class="w-full h-[56px] bg-primary text-white font-title-lg rounded-[20px] flex items-center justify-center gap-sm active:scale-95 transition-transform duration-200 shadow-md">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+                Pay Now
+            </button>
+</section>
+<!-- Fee History List -->
+<section class="space-y-md">
+<div class="flex justify-between items-center">
+<h4 class="font-headline-sm text-on-surface">Payment History</h4>
+<button class="text-primary font-label-lg flex items-center gap-1">
+                    View All <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<div class="space-y-sm">
+<!-- History Item 1 -->
+<div class="flex items-center justify-between p-md bg-white border border-outline-variant/30 rounded-xl hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<div>
+<p class="font-title-lg text-on-surface">September Fee</p>
+<p class="font-body-md text-outline">Receipt: #GG-8842 • 12 Sep</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-xs">
+<span class="font-title-lg text-on-surface">₹ 8,500</span>
+<div class="flex items-center gap-sm">
+<span class="font-label-md text-primary bg-primary-container/20 px-2 py-0.5 rounded">Paid</span>
+<button class="w-8 h-8 rounded-full border border-primary text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</div>
+</div>
+<!-- History Item 2 -->
+<div class="flex items-center justify-between p-md bg-white border border-outline-variant/30 rounded-xl hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<div>
+<p class="font-title-lg text-on-surface">August Fee</p>
+<p class="font-body-md text-outline">Receipt: #GG-8210 • 05 Aug</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-xs">
+<span class="font-title-lg text-on-surface">₹ 8,500</span>
+<div class="flex items-center gap-sm">
+<span class="font-label-md text-primary bg-primary-container/20 px-2 py-0.5 rounded">Paid</span>
+<button class="w-8 h-8 rounded-full border border-primary text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</div>
+</div>
+<!-- History Item 3 -->
+<div class="flex items-center justify-between p-md bg-white border border-outline-variant/30 rounded-xl hover:bg-surface-container-high transition-colors opacity-70">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-outline">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<div>
+<p class="font-title-lg text-on-surface">Uniform &amp; Books</p>
+<p class="font-body-md text-outline">Receipt: #GG-7901 • 15 Jul</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-xs">
+<span class="font-title-lg text-on-surface">₹ 12,000</span>
+<div class="flex items-center gap-sm">
+<span class="font-label-md text-primary bg-primary-container/20 px-2 py-0.5 rounded">Paid</span>
+<button class="w-8 h-8 rounded-full border border-primary text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Contextual Help -->
+<section class="bg-primary-container/5 rounded-xl p-md border border-primary-container/10 flex items-start gap-md">
+<span class="material-symbols-outlined text-primary">info</span>
+<div class="space-y-xs">
+<h5 class="font-label-lg text-primary">Need assistance?</h5>
+<p class="font-body-md text-on-surface-variant leading-relaxed">For any discrepancies in fee calculations or payment failures, please contact the accounts department between 9 AM and 3 PM.</p>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-2 bg-surface-container dark:bg-surface-container-low shadow-[0px_-4px_20px_rgba(91,26,142,0.05)] rounded-t-xl z-50">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container-highest transition-colors rounded-full active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary-fixed text-on-secondary-container dark:text-on-secondary-fixed rounded-full px-4 py-1 active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-label-md text-label-md">Fees</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container-highest transition-colors rounded-full active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-md text-label-md">Homework</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container-highest transition-colors rounded-full active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-md text-label-md">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container-highest transition-colors rounded-full active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for download buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.innerText.includes('download')) {
+                    const icon = this.querySelector('span');
+                    icon.innerText = 'check';
+                    setTimeout(() => {
+                        icon.innerText = 'download';
+                    }, 2000);
+                }
+            });
+        });
+    </script>
+</body></html>

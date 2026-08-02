@@ -1,0 +1,99 @@
+{
+  "kind": "collectionType",
+  "collectionName": "students",
+  "info": {
+    "singularName": "student",
+    "pluralName": "students",
+    "displayName": "Student",
+    "description": "Enrolled students"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "admissionNumber": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "rollNumber": {
+      "type": "string"
+    },
+    "studentName": {
+      "type": "string",
+      "required": true
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "dob": {
+      "type": "date"
+    },
+    "gender": {
+      "type": "enumeration",
+      "enum": ["male", "female", "other"]
+    },
+    "bloodGroup": {
+      "type": "string"
+    },
+    "class": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::class.class",
+      "inversedBy": "students"
+    },
+    "section": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::section.section",
+      "inversedBy": "students"
+    },
+    "parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::parent.parent",
+      "inversedBy": "students"
+    },
+    "admissionDate": {
+      "type": "date"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["active", "inactive", "transferred", "graduated"],
+      "default": "active",
+      "required": true
+    },
+    "attendances": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::attendance.attendance",
+      "mappedBy": "student"
+    },
+    "assignments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::assignment.assignment",
+      "mappedBy": "student"
+    },
+    "examResults": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::exam-result.exam-result",
+      "mappedBy": "student"
+    },
+    "fees": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::fee.fee",
+      "mappedBy": "student"
+    },
+    "feePayments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::fee-payment.fee-payment",
+      "mappedBy": "student"
+    }
+  }
+}

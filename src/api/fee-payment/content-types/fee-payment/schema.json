@@ -1,0 +1,65 @@
+{
+  "kind": "collectionType",
+  "collectionName": "fee_payments",
+  "info": {
+    "singularName": "fee-payment",
+    "pluralName": "fee-payments",
+    "displayName": "Fee Payment",
+    "description": "Fee payment transactions"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "student": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::student.student",
+      "inversedBy": "feePayments",
+      "required": true
+    },
+    "fee": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::fee.fee",
+      "inversedBy": "payments"
+    },
+    "amount": {
+      "type": "decimal",
+      "required": true
+    },
+    "transactionId": {
+      "type": "string",
+      "unique": true
+    },
+    "razorpayOrderId": {
+      "type": "string"
+    },
+    "razorpayPaymentId": {
+      "type": "string"
+    },
+    "paymentMethod": {
+      "type": "enumeration",
+      "enum": ["razorpay", "cash", "cheque", "bank_transfer", "upi"],
+      "default": "razorpay"
+    },
+    "receipt": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["files", "images"]
+    },
+    "paymentDate": {
+      "type": "datetime",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["pending", "success", "failed", "refunded"],
+      "default": "pending"
+    },
+    "receiptNumber": {
+      "type": "string",
+      "unique": true
+    }
+  }
+}

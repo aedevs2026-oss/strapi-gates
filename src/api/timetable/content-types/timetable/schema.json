@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "timetables",
+  "info": {
+    "singularName": "timetable",
+    "pluralName": "timetables",
+    "displayName": "Timetable",
+    "description": "Class timetable entries"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "day": {
+      "type": "enumeration",
+      "enum": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
+      "required": true
+    },
+    "period": {
+      "type": "integer",
+      "required": true
+    },
+    "subject": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::subject.subject",
+      "inversedBy": "timetables"
+    },
+    "teacher": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::teacher.teacher",
+      "inversedBy": "timetables"
+    },
+    "startTime": {
+      "type": "time",
+      "required": true
+    },
+    "endTime": {
+      "type": "time",
+      "required": true
+    },
+    "class": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::class.class",
+      "inversedBy": "timetables",
+      "required": true
+    }
+  }
+}

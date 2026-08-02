@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "holidays",
+  "info": {
+    "singularName": "holiday",
+    "pluralName": "holidays",
+    "displayName": "Holiday",
+    "description": "School holidays calendar"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "holidayName": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "date": {
+      "type": "date",
+      "required": true
+    },
+    "endDate": {
+      "type": "date"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["public", "school", "exam_break"],
+      "default": "school"
+    }
+  }
+}

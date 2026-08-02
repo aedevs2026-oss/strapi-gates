@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contact_details",
+  "info": {
+    "singularName": "contact-detail",
+    "pluralName": "contact-details",
+    "displayName": "Contact Details",
+    "description": "School contact information for parents"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "department": {
+      "type": "string",
+      "required": true
+    },
+    "contactPerson": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "address": {
+      "type": "text"
+    },
+    "workingHours": {
+      "type": "string"
+    },
+    "isPrimary": {
+      "type": "boolean",
+      "default": false
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

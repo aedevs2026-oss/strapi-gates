@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "parents",
+  "info": {
+    "singularName": "parent",
+    "pluralName": "parents",
+    "displayName": "Parent",
+    "description": "Parent / guardian accounts for mobile app"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "fatherName": {
+      "type": "string"
+    },
+    "motherName": {
+      "type": "string"
+    },
+    "guardianName": {
+      "type": "string"
+    },
+    "mobileNumber": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "alternativeMobile": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "address": {
+      "type": "text"
+    },
+    "deviceToken": {
+      "type": "string"
+    },
+    "blocked": {
+      "type": "boolean",
+      "default": false
+    },
+    "lastLoginAt": {
+      "type": "datetime"
+    },
+    "students": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::student.student",
+      "mappedBy": "parent"
+    }
+  }
+}

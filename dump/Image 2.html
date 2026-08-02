@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Profile | Golden Gates</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#1b1b21",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#fdbc13",
+                        "surface": "#fcf8ff",
+                        "tertiary-container": "#5e1292",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#cc90ff",
+                        "inverse-on-surface": "#f3eff8",
+                        "surface-tint": "#7d40b1",
+                        "primary-fixed": "#f1daff",
+                        "on-surface": "#1b1b21",
+                        "on-secondary-fixed-variant": "#5d4200",
+                        "error": "#ba1a1a",
+                        "outline": "#7e7482",
+                        "on-tertiary-fixed": "#2e004e",
+                        "on-secondary-fixed": "#261900",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#e5e1ea",
+                        "primary": "#40006d",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#dfb7ff",
+                        "surface-container-high": "#eae7ef",
+                        "tertiary-fixed-dim": "#e1b6ff",
+                        "surface-variant": "#e5e1ea",
+                        "surface-dim": "#dcd8e1",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#ce8fff",
+                        "primary-fixed-dim": "#dfb7ff",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#ffdea3",
+                        "secondary-container": "#fdbc13",
+                        "secondary": "#7a5900",
+                        "surface-container": "#f0ecf5",
+                        "outline-variant": "#cfc2d3",
+                        "on-primary-fixed-variant": "#642597",
+                        "on-tertiary-fixed-variant": "#671f9b",
+                        "background": "#fcf8ff",
+                        "surface-container-low": "#f6f2fb",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#5b1a8e",
+                        "on-primary-fixed": "#2d004f",
+                        "on-surface-variant": "#4c4451",
+                        "surface-bright": "#fcf8ff",
+                        "tertiary": "#41006b",
+                        "tertiary-fixed": "#f2daff",
+                        "on-secondary-container": "#6b4d00",
+                        "inverse-surface": "#303036"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "12px",
+                        "lg": "24px",
+                        "xs": "8px",
+                        "md": "16px",
+                        "base": "4px",
+                        "xl": "32px",
+                        "container-padding": "20px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Be Vietnam Pro"],
+                        "label-lg": ["Be Vietnam Pro"],
+                        "headline-md": ["Be Vietnam Pro"],
+                        "title-lg": ["Be Vietnam Pro"],
+                        "body-md": ["Be Vietnam Pro"],
+                        "headline-sm": ["Be Vietnam Pro"],
+                        "label-md": ["Be Vietnam Pro"],
+                        "display-lg": ["Be Vietnam Pro"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-md": ["11px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .premium-shadow {
+            box-shadow: 0px 4px 20px rgba(91, 26, 142, 0.05);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E0D7ED;
+        }
+        .profile-gradient {
+            background: linear-gradient(135deg, #40006d 0%, #5e1292 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-lg min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="bg-surface shadow-[0px_4px_20px_rgba(91,26_142,0.05)] docked full-width top-0 z-40 sticky">
+<div class="flex justify-between items-center px-container-padding w-full h-14">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary text-2xl">arrow_back</span>
+<span class="font-title-lg text-title-lg text-primary">Student Profile</span>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full cursor-pointer" data-icon="edit">edit</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full cursor-pointer" data-icon="notifications">notifications</span>
+</div>
+</div>
+</header>
+<main class="max-w-2xl mx-auto px-container-padding pt-lg space-y-lg">
+<!-- Profile Hero Section -->
+<section class="flex flex-col items-center text-center space-y-md py-md">
+<div class="relative">
+<div class="w-32 h-32 rounded-full border-4 border-white shadow-xl overflow-hidden profile-gradient flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a young South Asian male student named Arjun Kumar, wearing a crisp navy blue school blazer with a golden crest. The background is a soft-focus library with warm, elegant lighting. The overall mood is academic, prestigious, and nurturing, reflecting a high-end educational environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1OZFrcKuvRRJ_A4agsADiU9HIDGawMNEDN7HnNd70MVvrwobYuh7nU52YmLHeY8ac-i8WA9aghHQpSOrdt4eyKl5FqcJiwLz22LLD5teCpsrlP_1En4neGznsk24baubou0UhBlXuPcWrBw7pMccSuaPRqmWF3U4stk190Ad0-d4_tmfQPbWmBnhPTbxf5VfYds5Aq8iZxupjZ6oKu69dIZ087qO4GcWpovz7FHM7-vCRYuKPDBY4UnGesG4OWF2RC-dunCVAtkKk"/>
+</div>
+<div class="absolute bottom-1 right-1 bg-secondary-container text-on-secondary-container p-1.5 rounded-full border-2 border-white shadow-md">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="space-y-base">
+<h1 class="font-display-lg text-display-lg font-bold text-primary">Arjun Kumar</h1>
+<p class="font-title-lg text-title-lg text-on-surface-variant">Admission No: GG-2024-0482</p>
+<div class="inline-flex items-center gap-xs px-md py-1 bg-primary-container text-on-primary-container rounded-full mt-sm">
+<span class="font-label-lg text-label-lg uppercase">Active Student</span>
+</div>
+</div>
+</section>
+<!-- Academic Info (Bento Style) -->
+<section class="grid grid-cols-2 gap-md">
+<div class="col-span-1 glass-card p-md rounded-xl premium-shadow flex flex-col items-center justify-center text-center space-y-xs">
+<span class="material-symbols-outlined text-primary mb-1">school</span>
+<p class="font-label-md text-label-md text-outline">Class</p>
+<p class="font-title-lg text-title-lg text-primary">Grade 10-B</p>
+</div>
+<div class="col-span-1 glass-card p-md rounded-xl premium-shadow flex flex-col items-center justify-center text-center space-y-xs">
+<span class="material-symbols-outlined text-primary mb-1">format_list_numbered</span>
+<p class="font-label-md text-label-md text-outline">Roll No</p>
+<p class="font-title-lg text-title-lg text-primary">24</p>
+</div>
+</section>
+<!-- Detailed Info Groups -->
+<div class="space-y-md">
+<!-- Personal Information -->
+<div class="glass-card rounded-xl overflow-hidden premium-shadow">
+<div class="p-md border-b border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">person</span>
+<h2 class="font-title-lg text-title-lg text-primary">Personal Info</h2>
+</div>
+</div>
+<div class="p-md space-y-md">
+<div class="flex justify-between items-center">
+<div class="space-y-xs">
+<p class="font-label-md text-label-md text-outline">Date of Birth</p>
+<p class="font-body-lg text-body-lg text-on-surface">14 October 2008</p>
+</div>
+<div class="text-right space-y-xs">
+<p class="font-label-md text-label-md text-outline">Blood Group</p>
+<p class="font-body-lg text-body-lg text-on-surface">B+ Positive</p>
+</div>
+</div>
+<div class="pt-sm border-t border-surface-container-high space-y-xs">
+<p class="font-label-md text-label-md text-outline">Mobile Number</p>
+<p class="font-body-lg text-body-lg text-on-surface">+91 98765 43210</p>
+</div>
+<div class="pt-sm border-t border-surface-container-high space-y-xs">
+<p class="font-label-md text-label-md text-outline">Residential Address</p>
+<p class="font-body-lg text-body-lg text-on-surface leading-relaxed">Flat 402, Golden Orchid Apartments, Sector 12, HSR Layout, Bangalore - 560102</p>
+</div>
+</div>
+</div>
+<!-- Parent Details -->
+<div class="glass-card rounded-xl overflow-hidden premium-shadow">
+<div class="p-md border-b border-outline-variant flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">family_restroom</span>
+<h2 class="font-title-lg text-title-lg text-primary">Parent Details</h2>
+</div>
+<div class="p-md space-y-lg">
+<!-- Father -->
+<div class="flex items-start gap-md">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant">person_3</span>
+</div>
+<div class="flex-1 space-y-xs">
+<p class="font-label-md text-label-md text-outline">Father's Name</p>
+<p class="font-body-lg text-body-lg text-on-surface font-semibold">Mr. Rajesh Kumar</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Software Architect at TechCorp</p>
+</div>
+</div>
+<!-- Mother -->
+<div class="flex items-start gap-md border-t border-surface-container-high pt-lg">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant">person_4</span>
+</div>
+<div class="flex-1 space-y-xs">
+<p class="font-label-md text-label-md text-outline">Mother's Name</p>
+<p class="font-body-lg text-body-lg text-on-surface font-semibold">Mrs. Priya Kumar</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Senior Consultant (Medical)</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Contact CTA -->
+<div class="py-xl">
+<button class="w-full h-14 bg-primary text-on-primary rounded-full font-title-lg text-title-lg flex items-center justify-center gap-sm active:scale-95 transition-transform duration-200 shadow-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">support_agent</span>
+                Contact School Office
+            </button>
+<p class="text-center font-label-md text-label-md text-outline mt-md">For corrections in profile, please visit the administrative wing.</p>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Hidden on sub-pages as per hierarchy but included for context) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-2 bg-surface-container shadow-[0px_-4px_20px_rgba(91,26,142,0.05)] rounded-t-xl z-50">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-md text-label-md">Fees</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-label-md text-label-md">Homework</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-label-md text-label-md">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98)';
+                card.style.transition = 'transform 0.15s ease';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

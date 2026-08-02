@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "assignments",
+  "info": {
+    "singularName": "assignment",
+    "pluralName": "assignments",
+    "displayName": "Assignment",
+    "description": "Student assignment submissions and grading"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "attachment": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["files", "images"]
+    },
+    "submissionDate": {
+      "type": "datetime"
+    },
+    "teacher": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::teacher.teacher",
+      "inversedBy": "assignments"
+    },
+    "student": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::student.student",
+      "inversedBy": "assignments",
+      "required": true
+    },
+    "marks": {
+      "type": "decimal"
+    },
+    "maxMarks": {
+      "type": "decimal"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["pending", "submitted", "graded", "late"],
+      "default": "pending"
+    },
+    "remarks": {
+      "type": "string"
+    }
+  }
+}

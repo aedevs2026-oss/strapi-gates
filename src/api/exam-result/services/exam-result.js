@@ -1,0 +1,2 @@
+const { createCoreService } = require('@strapi/strapi').factories;
+module.exports = createCoreService('api::exam-result.exam-result');

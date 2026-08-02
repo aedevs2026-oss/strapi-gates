@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "fees",
+  "info": {
+    "singularName": "fee",
+    "pluralName": "fees",
+    "displayName": "Fee",
+    "description": "Student fee records"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "student": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::student.student",
+      "inversedBy": "fees",
+      "required": true
+    },
+    "academicYear": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::academic-year.academic-year",
+      "inversedBy": "fees"
+    },
+    "feeType": {
+      "type": "string"
+    },
+    "totalAmount": {
+      "type": "decimal",
+      "required": true
+    },
+    "discount": {
+      "type": "decimal",
+      "default": 0
+    },
+    "paidAmount": {
+      "type": "decimal",
+      "default": 0
+    },
+    "pendingAmount": {
+      "type": "decimal",
+      "required": true
+    },
+    "dueDate": {
+      "type": "date",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["pending", "partial", "paid", "overdue"],
+      "default": "pending"
+    },
+    "payments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::fee-payment.fee-payment",
+      "mappedBy": "fee"
+    }
+  }
+}

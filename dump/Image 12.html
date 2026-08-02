@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Gates - Circulars &amp; Attendance</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .glass-effect {
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.7);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cfc2d3;
+            border-radius: 10px;
+        }
+        /* Layout Transitions */
+        .page-transition {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .hidden-page {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+    </style>
+<!-- Tailwind Config Verbatim -->
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-background": "#1b1b21",
+                      "on-error": "#ffffff",
+                      "secondary-fixed-dim": "#fdbc13",
+                      "surface": "#fcf8ff",
+                      "tertiary-container": "#5e1292",
+                      "on-primary": "#ffffff",
+                      "on-primary-container": "#cc90ff",
+                      "inverse-on-surface": "#f3eff8",
+                      "surface-tint": "#7d40b1",
+                      "primary-fixed": "#f1daff",
+                      "on-surface": "#1b1b21",
+                      "on-secondary-fixed-variant": "#5d4200",
+                      "error": "#ba1a1a",
+                      "outline": "#7e7482",
+                      "on-tertiary-fixed": "#2e004e",
+                      "on-secondary-fixed": "#261900",
+                      "on-error-container": "#93000a",
+                      "surface-container-highest": "#e5e1ea",
+                      "primary": "#40006d",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-primary": "#dfb7ff",
+                      "surface-container-high": "#eae7ef",
+                      "tertiary-fixed-dim": "#e1b6ff",
+                      "surface-variant": "#e5e1ea",
+                      "surface-dim": "#dcd8e1",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-container": "#ce8fff",
+                      "primary-fixed-dim": "#dfb7ff",
+                      "on-secondary": "#ffffff",
+                      "secondary-fixed": "#ffdea3",
+                      "secondary-container": "#fdbc13",
+                      "secondary": "#7a5900",
+                      "surface-container": "#f0ecf5",
+                      "outline-variant": "#cfc2d3",
+                      "on-primary-fixed-variant": "#642597",
+                      "on-tertiary-fixed-variant": "#671f9b",
+                      "background": "#fcf8ff",
+                      "surface-container-low": "#f6f2fb",
+                      "error-container": "#ffdad6",
+                      "primary-container": "#5b1a8e",
+                      "on-primary-fixed": "#2d004f",
+                      "on-surface-variant": "#4c4451",
+                      "surface-bright": "#fcf8ff",
+                      "tertiary": "#41006b",
+                      "tertiary-fixed": "#f2daff",
+                      "on-secondary-container": "#6b4d00",
+                      "inverse-surface": "#303036"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "2xl": "20px",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sm": "12px",
+                      "lg": "24px",
+                      "xs": "8px",
+                      "md": "16px",
+                      "base": "4px",
+                      "xl": "32px",
+                      "container-padding": "20px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Be Vietnam Pro"],
+                      "label-lg": ["Be Vietnam Pro"],
+                      "headline-md": ["Be Vietnam Pro"],
+                      "title-lg": ["Be Vietnam Pro"],
+                      "body-md": ["Be Vietnam Pro"],
+                      "headline-sm": ["Be Vietnam Pro"],
+                      "label-md": ["Be Vietnam Pro"],
+                      "display-lg": ["Be Vietnam Pro"]
+              },
+              "fontSize": {
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "label-md": ["11px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-lg min-h-screen flex flex-col md:flex-row overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim shadow-[0px_4px_20px_rgba(91,26,142,0.05)] docked full-width top-0 z-[60] flex justify-between items-center px-container-padding w-full h-14 fixed md:hidden">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">school</span>
+<h1 class="font-display-lg text-headline-sm font-bold text-primary dark:text-primary-fixed">Golden Gates</h1>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full">notifications</button>
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a young student in a modern school uniform, smiling warmly against a soft-focus library background. High-key lighting highlights the trust and academic environment of Golden Gates school, using a premium light-mode aesthetic with soft lavender tints." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJAjVQaMgX_uVVs08tEdkYSnRXo8i5izlFXFYqcpNqfm_b7j5CWbO8EnDGrXjrXq-ErXLGNhrg8psErxnNj2MdOHkXfRFwlohQ73dso5dsxabIpe-uH3io1ZNFh83gBFTsDHQxg70lFJ2EZu8ibatrMCqUnJVul_gSJmO8ZAcs4-EdxT44N_3booga-lEHNqW-oWkP8UIG7SsAvHjsEXXqiJI5YDp9g6akm50h-sBwQEMMh0wm36F1od-KTJUl_rP9ceSQ5pnhdD3w"/>
+</div>
+</div>
+</header>
+<!-- Sidebar (Desktop NavigationDrawer) -->
+<aside class="hidden md:flex flex-col h-full py-md bg-surface dark:bg-surface-dim shadow-xl w-80 fixed left-0 top-0 z-50 rounded-r-xl">
+<div class="px-lg pb-xl border-b border-outline-variant/30">
+<div class="flex items-center gap-md mb-lg">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">school</span>
+<h1 class="font-title-lg text-title-lg font-bold text-primary">Golden Gates</h1>
+</div>
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A close-up high-resolution portrait of a student, Arjun Kumar, with a friendly expression. He is wearing a white school shirt with the Golden Gates crest visible. The background is a clean, minimalist educational setting with soft neutral colors and elegant lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiipdgS7bmEfkeStwFswZBfAr14XdNLlSlj3Ny441VRVM3XhdlT2dwtOui0DvyrW3o4OM9wTY-v7Iw7dCaKZIqkBeTTfI_ritE0NViwIUxbdbl6EbduEtAb1CTgBsX-Uq6qsnxp14smdqOi38fDoTcn8G8haTIu_oM9uk_XqnNEn_OT9usRO2FWTZvlsJcG4dTSaFS--rjozaiXMQkiTbbg6zeKkadQJfAsfAylCKMf4v3lKVdfmRbjWI9T21tJ--BewyYf3bkuIEb"/>
+</div>
+<div>
+<h2 class="font-body-lg text-primary font-bold">Arjun Kumar</h2>
+<p class="font-label-md text-on-surface-variant">Grade 10-B | Roll No: 24</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 mt-lg px-2 space-y-1">
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high transition-colors rounded-full mx-2 active:opacity-80" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-body-lg">Timetable</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high transition-colors rounded-full mx-2 active:opacity-80" href="#">
+<span class="material-symbols-outlined">event_note</span>
+<span class="font-body-lg">Exam Schedules</span>
+</a>
+<!-- Active Link Mock -->
+<button class="w-full flex items-center gap-md px-md py-3 bg-primary-container text-on-primary-container rounded-full mx-2 transition-all" id="nav-circulars" onclick="switchTab('circulars')">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">campaign</span>
+<span class="font-body-lg font-bold">Circulars</span>
+</button>
+<button class="w-full flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-full mx-2" id="nav-attendance" onclick="switchTab('attendance')">
+<span class="material-symbols-outlined">fact_check</span>
+<span class="font-body-lg">Attendance</span>
+</button>
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-full mx-2" href="#">
+<span class="material-symbols-outlined">grade</span>
+<span class="font-body-lg">Results</span>
+</a>
+<div class="pt-xl mt-xl border-t border-outline-variant/30 mx-lg">
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-full" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-lg">Settings</span>
+</a>
+</div>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-80 pb-24 md:pb-lg px-container-padding mt-20 md:mt-lg max-w-6xl mx-auto w-full">
+<!-- Circulars Page -->
+<section class="page-transition" id="page-circulars">
+<header class="mb-lg">
+<h2 class="font-headline-md text-headline-md text-primary mb-xs">School Circulars</h2>
+<p class="font-body-md text-on-surface-variant">Stay updated with the latest institutional announcements.</p>
+</header>
+<!-- Circulars List (Asymmetric/Bento Influence) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+<!-- Featured/Latest Circular -->
+<div class="lg:col-span-8 bg-primary-container text-on-primary-container p-xl rounded-2xl shadow-lg relative overflow-hidden group cursor-pointer active:scale-[0.99] transition-transform">
+<div class="absolute top-0 right-0 w-48 h-48 bg-tertiary-container/20 rounded-full -translate-y-12 translate-x-12"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-xs mb-md">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-widest">New</span>
+<span class="text-label-md opacity-80">October 24, 2023</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-md leading-tight">Annual Cultural Festival "Sanskriti 2023" - Schedule &amp; Registrations</h3>
+<p class="font-body-lg mb-xl opacity-90 max-w-2xl">We are excited to announce our upcoming cultural festival. All students from Grades 6-12 are invited to participate in various performing arts and technical competitions.</p>
+<button class="bg-surface-container-lowest text-primary px-lg py-md rounded-2xl font-bold flex items-center gap-xs hover:shadow-xl transition-all">
+                            Read Full Details
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Circulars Secondary List -->
+<div class="lg:col-span-4 flex flex-col gap-md">
+<div class="bg-surface-container-low p-md rounded-2xl border border-outline-variant/30 hover:shadow-md transition-all group">
+<div class="flex justify-between items-start mb-sm">
+<span class="text-label-md text-on-surface-variant font-medium">Oct 20, 2023</span>
+<span class="bg-primary text-on-primary text-[10px] px-2 py-0.5 rounded-full">Academic</span>
+</div>
+<h4 class="font-title-lg text-on-surface mb-sm group-hover:text-primary transition-colors">Mid-Term Examination Results Release</h4>
+<a class="text-primary font-bold text-label-lg flex items-center gap-1" href="#">Read More <span class="material-symbols-outlined text-[14px]">open_in_new</span></a>
+</div>
+<div class="bg-surface-container-low p-md rounded-2xl border border-outline-variant/30 hover:shadow-md transition-all group">
+<div class="flex justify-between items-start mb-sm">
+<span class="text-label-md text-on-surface-variant font-medium">Oct 18, 2023</span>
+<span class="bg-secondary text-on-secondary text-[10px] px-2 py-0.5 rounded-full">General</span>
+</div>
+<h4 class="font-title-lg text-on-surface mb-sm group-hover:text-primary transition-colors">Inter-House Football Tournament Bracket</h4>
+<a class="text-primary font-bold text-label-lg flex items-center gap-1" href="#">Read More <span class="material-symbols-outlined text-[14px]">open_in_new</span></a>
+</div>
+</div>
+<!-- More Row -->
+<div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+<div class="bg-white p-lg rounded-2xl shadow-[0px_4px_20px_rgba(91,26,142,0.05)] border border-outline-variant/20">
+<span class="text-label-md text-outline mb-xs block">Oct 15, 2023</span>
+<h4 class="font-title-lg text-on-surface mb-md">Revised Transport Routes for Winter Season</h4>
+<button class="w-full py-sm bg-surface-container-high rounded-xl text-primary font-bold text-label-lg hover:bg-primary hover:text-white transition-all">Download PDF</button>
+</div>
+<div class="bg-white p-lg rounded-2xl shadow-[0px_4px_20px_rgba(91,26,142,0.05)] border border-outline-variant/20">
+<span class="text-label-md text-outline mb-xs block">Oct 12, 2023</span>
+<h4 class="font-title-lg text-on-surface mb-md">Parent-Teacher Meeting Grade 10th - Slot Booking</h4>
+<button class="w-full py-sm bg-surface-container-high rounded-xl text-primary font-bold text-label-lg hover:bg-primary hover:text-white transition-all">Book Now</button>
+</div>
+<div class="bg-white p-lg rounded-2xl shadow-[0px_4px_20px_rgba(91,26,142,0.05)] border border-outline-variant/20">
+<span class="text-label-md text-outline mb-xs block">Oct 05, 2023</span>
+<h4 class="font-title-lg text-on-surface mb-md">Science Exhibition - Call for Innovative Projects</h4>
+<button class="w-full py-sm bg-surface-container-high rounded-xl text-primary font-bold text-label-lg hover:bg-primary hover:text-white transition-all">Read More</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Attendance Page -->
+<section class="page-transition hidden-page" id="page-attendance">
+<header class="mb-lg">
+<h2 class="font-headline-md text-headline-md text-primary mb-xs">Attendance Tracker</h2>
+<p class="font-body-md text-on-surface-variant">Monitoring presence and punctuality throughout the term.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+<!-- Summary Card -->
+<div class="lg:col-span-1 space-y-md">
+<div class="bg-primary text-on-primary p-xl rounded-2xl shadow-xl relative overflow-hidden">
+<div class="absolute -bottom-6 -right-6 w-32 h-32 bg-white/10 rounded-full"></div>
+<h3 class="font-label-lg opacity-80 mb-sm">Current Attendance</h3>
+<div class="flex items-baseline gap-xs mb-lg">
+<span class="text-5xl font-bold">94.2</span>
+<span class="text-2xl font-medium opacity-80">%</span>
+</div>
+<div class="w-full bg-white/20 h-2 rounded-full overflow-hidden mb-md">
+<div class="bg-secondary-fixed-dim h-full w-[94.2%] rounded-full"></div>
+</div>
+<p class="text-label-md opacity-90">Good job! You have only missed 2 days this month.</p>
+</div>
+<div class="bg-white p-lg rounded-2xl shadow-sm border border-outline-variant/30">
+<h4 class="font-title-lg text-primary mb-md">Monthly Stats</h4>
+<div class="space-y-sm">
+<div class="flex justify-between items-center p-sm bg-green-50 rounded-xl">
+<div class="flex items-center gap-sm">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-body-md font-medium text-green-700">Present</span>
+</div>
+<span class="font-bold text-green-700">18 Days</span>
+</div>
+<div class="flex justify-between items-center p-sm bg-red-50 rounded-xl">
+<div class="flex items-center gap-sm">
+<span class="w-2 h-2 rounded-full bg-red-500"></span>
+<span class="text-body-md font-medium text-red-700">Absent</span>
+</div>
+<span class="font-bold text-red-700">01 Day</span>
+</div>
+<div class="flex justify-between items-center p-sm bg-blue-50 rounded-xl">
+<div class="flex items-center gap-sm">
+<span class="w-2 h-2 rounded-full bg-blue-500"></span>
+<span class="text-body-md font-medium text-blue-700">Leave</span>
+</div>
+<span class="font-bold text-blue-700">01 Day</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Calendar Card -->
+<div class="lg:col-span-2 bg-white p-xl rounded-2xl shadow-sm border border-outline-variant/30">
+<div class="flex justify-between items-center mb-xl">
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined hover:bg-surface-container p-2 rounded-full transition-colors">chevron_left</button>
+<h3 class="font-headline-sm text-on-surface">October 2023</h3>
+<button class="material-symbols-outlined hover:bg-surface-container p-2 rounded-full transition-colors">chevron_right</button>
+</div>
+<button class="flex items-center gap-xs text-primary font-bold text-label-lg">
+<span class="material-symbols-outlined">filter_list</span> Filter
+                        </button>
+</div>
+<!-- Days of Week -->
+<div class="calendar-grid border-b border-outline-variant/20 pb-md mb-md">
+<div class="text-center font-label-lg text-outline">SUN</div>
+<div class="text-center font-label-lg text-on-surface-variant">MON</div>
+<div class="text-center font-label-lg text-on-surface-variant">TUE</div>
+<div class="text-center font-label-lg text-on-surface-variant">WED</div>
+<div class="text-center font-label-lg text-on-surface-variant">THU</div>
+<div class="text-center font-label-lg text-on-surface-variant">FRI</div>
+<div class="text-center font-label-lg text-on-surface-variant">SAT</div>
+</div>
+<!-- Calendar Numbers -->
+<div class="calendar-grid gap-y-lg">
+<!-- Row 1: Empty + Dates -->
+<div class="h-12 flex items-center justify-center font-body-md text-outline/30">30</div>
+<div class="h-12 flex flex-col items-center justify-center group cursor-pointer">
+<span class="font-body-md text-on-surface">1</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center group">
+<span class="font-body-md text-on-surface">2</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">3</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">4</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">5</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">6</span>
+<div class="w-1.5 h-1.5 rounded-full bg-secondary mt-1"></div>
+</div>
+<!-- Row 2 -->
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-outline">7</span>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">8</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">9</span>
+<div class="w-1.5 h-1.5 rounded-full bg-red-500 mt-1"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center relative">
+<div class="absolute inset-0 bg-primary/10 rounded-xl border-2 border-primary"></div>
+<span class="font-bold text-primary relative z-10">10</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1 relative z-10"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">11</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">12</span>
+<div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">13</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+</div>
+<!-- ... rest of days ... -->
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-outline">14</span>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">15</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">16</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">17</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">18</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">19</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+</div>
+<div class="h-12 flex flex-col items-center justify-center">
+<span class="font-body-md text-on-surface">20</span>
+<div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+</div>
+</div>
+<div class="mt-xl flex flex-wrap gap-lg pt-lg border-t border-outline-variant/20">
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-full bg-green-500"></div>
+<span class="text-label-md text-on-surface-variant">Present</span>
+</div>
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-full bg-red-500"></div>
+<span class="text-label-md text-on-surface-variant">Absent</span>
+</div>
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-full bg-blue-500"></div>
+<span class="text-label-md text-on-surface-variant">Medical Leave</span>
+</div>
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<span class="text-label-md text-on-surface-variant">Gazetted Holiday</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-2 bg-surface-container dark:bg-surface-container-low shadow-[0px_-4px_20px_rgba(91,26,142,0.05)] z-50 rounded-t-2xl">
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest transition-colors active:scale-90 duration-150" onclick="window.location.reload()">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary-fixed text-on-secondary-container dark:text-on-secondary-fixed rounded-full px-4 py-1 active:scale-90 transition-all duration-150" id="mobile-nav-circulars" onclick="switchTab('circulars')">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">campaign</span>
+<span class="font-label-md text-label-md">Alerts</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest transition-colors active:scale-90 duration-150" id="mobile-nav-attendance" onclick="switchTab('attendance')">
+<span class="material-symbols-outlined">fact_check</span>
+<span class="font-label-md text-label-md">Check</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest transition-colors active:scale-90 duration-150">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</button>
+</nav>
+<script>
+        function switchTab(tab) {
+            const circularsPage = document.getElementById('page-circulars');
+            const attendancePage = document.getElementById('page-attendance');
+            
+            // Nav elements
+            const navCirc = document.getElementById('nav-circulars');
+            const navAtt = document.getElementById('nav-attendance');
+            const mobCirc = document.getElementById('mobile-nav-circulars');
+            const mobAtt = document.getElementById('mobile-nav-attendance');
+
+            const activeClass = "bg-primary-container text-on-primary-container font-bold";
+            const inactiveClass = "text-on-surface-variant hover:bg-surface-container-high";
+            
+            const mobActiveClass = "bg-secondary-container dark:bg-secondary-fixed text-on-secondary-container dark:text-on-secondary-fixed";
+            const mobInactiveClass = "text-on-surface-variant";
+
+            if (tab === 'circulars') {
+                circularsPage.classList.remove('hidden-page');
+                attendancePage.classList.add('hidden-page');
+                
+                // Desktop Nav Update
+                navCirc.className = "w-full flex items-center gap-md px-md py-3 " + activeClass + " rounded-full mx-2 transition-all";
+                navAtt.className = "w-full flex items-center gap-md px-md py-3 " + inactiveClass + " rounded-full mx-2";
+                
+                // Mobile Nav Update
+                mobCirc.className = "flex flex-col items-center justify-center " + mobActiveClass + " rounded-full px-4 py-1 active:scale-90 transition-all duration-150";
+                mobAtt.className = "flex flex-col items-center justify-center " + mobInactiveClass + " px-4 py-1 hover:bg-surface-container-highest transition-colors active:scale-90 duration-150";
+            } else {
+                circularsPage.classList.add('hidden-page');
+                attendancePage.classList.remove('hidden-page');
+                
+                // Desktop Nav Update
+                navCirc.className = "w-full flex items-center gap-md px-md py-3 " + inactiveClass + " rounded-full mx-2";
+                navAtt.className = "w-full flex items-center gap-md px-md py-3 " + activeClass + " rounded-full mx-2 transition-all";
+                
+                // Mobile Nav Update
+                mobCirc.className = "flex flex-col items-center justify-center " + mobInactiveClass + " px-4 py-1 hover:bg-surface-container-highest transition-colors active:scale-90 duration-150";
+                mobAtt.className = "flex flex-col items-center justify-center " + mobActiveClass + " rounded-full px-4 py-1 active:scale-90 transition-all duration-150";
+            }
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body></html>

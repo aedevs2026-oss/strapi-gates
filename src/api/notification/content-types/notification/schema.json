@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "notifications",
+  "info": {
+    "singularName": "notification",
+    "pluralName": "notifications",
+    "displayName": "Notification",
+    "description": "Push notifications sent to parents"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "message": {
+      "type": "text",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "target": {
+      "type": "enumeration",
+      "enum": ["all_parents", "all_teachers", "specific_parent", "specific_class"],
+      "default": "all_parents"
+    },
+    "targetParent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::parent.parent"
+    },
+    "targetClass": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::class.class"
+    },
+    "sentDate": {
+      "type": "datetime"
+    },
+    "sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "dataPayload": {
+      "type": "json"
+    }
+  }
+}

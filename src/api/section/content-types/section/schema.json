@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sections",
+  "info": {
+    "singularName": "section",
+    "pluralName": "sections",
+    "displayName": "Section",
+    "description": "Class sections (e.g. A, B, C)"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "class": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::class.class",
+      "inversedBy": "sections"
+    },
+    "students": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::student.student",
+      "mappedBy": "section"
+    }
+  }
+}

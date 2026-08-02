@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "permissions",
+  "info": {
+    "singularName": "permission",
+    "pluralName": "permissions",
+    "displayName": "Permission",
+    "description": "Teacher app screen permissions"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "key": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    }
+  }
+}

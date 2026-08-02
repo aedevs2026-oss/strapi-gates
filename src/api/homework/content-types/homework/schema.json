@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "homeworks",
+  "info": {
+    "singularName": "homework",
+    "pluralName": "homeworks",
+    "displayName": "Homework",
+    "description": "Homework assigned to classes"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "subject": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::subject.subject",
+      "inversedBy": "homeworks"
+    },
+    "teacher": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::teacher.teacher",
+      "inversedBy": "homeworks"
+    },
+    "class": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::class.class",
+      "inversedBy": "homeworks"
+    },
+    "attachmentPdf": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["files"]
+    },
+    "dueDate": {
+      "type": "datetime",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["draft", "published", "closed"],
+      "default": "published"
+    }
+  }
+}
