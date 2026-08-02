@@ -1,5 +1,9 @@
 'use strict';
 
+const path = require('path');
+
+require(path.join(process.cwd(), 'config', 'puppeteer-env')).configurePuppeteerEnv();
+
 const ADMIN_ROLES = [
   {
     name: 'Principal',
