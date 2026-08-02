@@ -163,7 +163,7 @@ const HomePage = () => {
                 ) : (
                   <Flex direction="column" alignItems="center" gap={3}>
                     <Loader />
-                    <Typography textColor="neutral600">Generating QR code...</Typography>
+                    <Typography textColor="neutral600">Generating QR code... This can take up to 3 minutes on cloud hosting.</Typography>
                   </Flex>
                 )}
                 <Box paddingTop={4}>

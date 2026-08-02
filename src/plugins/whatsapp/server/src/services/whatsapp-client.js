@@ -25,8 +25,20 @@ async function ensureChromeReady() {
   return undefined;
 }
 
+function isSlowEnvironment() {
+  return Boolean(process.env.RENDER || process.env.RENDER_SERVICE_ID || process.env.CI);
+}
+
+function getQrWaitTimeoutMs() {
+  return isSlowEnvironment() ? 180000 : 90000;
+}
+
+function getAuthTimeoutMs() {
+  return isSlowEnvironment() ? 180000 : 60000;
+}
+
 const MESSAGE_DELAY_MS = 5000;
-const QR_WAIT_TIMEOUT_MS = 90000;
+const QR_WAIT_TIMEOUT_MS = getQrWaitTimeoutMs();
 const KEEP_ALIVE_MS = 45000;
 const READY_WAIT_TIMEOUT_MS = 120000;
 const SESSION_CLEANUP_ATTEMPTS = 8;
@@ -75,12 +87,15 @@ const PUPPETEER_ARGS = [
   '--disable-accelerated-2d-canvas',
   '--no-first-run',
   '--disable-gpu',
+  '--no-zygote',
+  '--disable-software-rasterizer',
   '--disable-features=IsolateOrigins,site-per-process',
   '--disable-features=MemorySaverMode',
   '--memory-pressure-off',
   '--disable-background-timer-throttling',
   '--disable-backgrounding-occluded-windows',
   '--disable-renderer-backgrounding',
+  '--disable-blink-features=AutomationControlled',
 ];
 
 class WhatsAppService {
@@ -101,6 +116,51 @@ class WhatsAppService {
     this.readyWaiters = [];
     this.keepAliveTimer = null;
     this.isDisconnecting = false;
+    this.qrConnectAttempts = 0;
+  }
+
+  getWebJsCacheDir() {
+    return path.join(process.cwd(), '.wwebjs_cache');
+  }
+
+  async clearWebJsCache() {
+    const cacheDir = this.getWebJsCacheDir();
+    if (!fs.existsSync(cacheDir)) {
+      return true;
+    }
+
+    try {
+      await fs.promises.rm(cacheDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 250 });
+      return true;
+    } catch (err) {
+      console.warn(`[WhatsApp] Could not remove ${cacheDir}: ${err.message}`);
+      return false;
+    }
+  }
+
+  async prepareForQrConnect() {
+    await this.clearSessionDataWithRetry();
+    await this.clearWebJsCache();
+  }
+
+  async teardownFailedConnection() {
+    const client = this.client;
+    this.client = null;
+    this.isInitializing = false;
+    this.status = 'disconnected';
+    this.qrCode = null;
+    this.qrDataUrl = null;
+    this.rejectQrWaiters(new Error('Connection reset'));
+    this.rejectReadyWaiters(new Error('Connection reset'));
+
+    if (client) {
+      await this.closeBrowserSafely(client);
+      try {
+        await client.destroy();
+      } catch (err) {
+        console.warn('[WhatsApp] Failed client destroy during reset:', err.message);
+      }
+    }
   }
 
   getSessionDir() {
@@ -223,7 +283,7 @@ class WhatsAppService {
           this.qrWaiters.splice(index, 1);
           reject(
             new Error(
-              'QR code generation timed out. Delete .wwebjs_auth and .wwebjs_cache, then restart Strapi.'
+              'QR code generation timed out. Click Disconnect, wait a few seconds, then Connect again. On cloud hosts this can take up to 3 minutes.'
             )
           );
         }
@@ -276,6 +336,10 @@ class WhatsAppService {
 
     return {
       authStrategy,
+      authTimeoutMs: getAuthTimeoutMs(),
+      qrMaxRetries: 5,
+      takeoverOnConflict: true,
+      bypassCSP: true,
       webVersionCache: {
         type: 'remote',
         remotePath:
@@ -285,11 +349,21 @@ class WhatsAppService {
         headless: true,
         executablePath: resolveChromeExecutable(),
         args: PUPPETEER_ARGS,
+        protocolTimeout: getAuthTimeoutMs(),
+        timeout: getAuthTimeoutMs(),
       },
     };
   }
 
   attachClientEvents(client) {
+    client.on('loading_screen', (percent, message) => {
+      console.log(`[WhatsApp] Loading ${percent}% - ${message}`);
+    });
+
+    client.on('change_state', (state) => {
+      console.log(`[WhatsApp] State changed: ${state}`);
+    });
+
     client.on('qr', async (qr) => {
       this.qrCode = qr;
       try {
@@ -392,7 +466,7 @@ class WhatsAppService {
 
     if (this.client || this.isInitializing) {
       try {
-        const qrCode = await this.waitForQrOrReady(15000);
+        const qrCode = await this.waitForQrOrReady(getQrWaitTimeoutMs());
         return {
           status: this.status,
           qrCode: qrCode || this.qrDataUrl,
@@ -412,8 +486,13 @@ class WhatsAppService {
     this.lastError = null;
 
     try {
+      if (this.qrConnectAttempts === 0) {
+        await this.prepareForQrConnect();
+      }
+
       await this.setupAndStartClient();
       const qrCode = await this.waitForQrOrReady();
+      this.qrConnectAttempts = 0;
       return {
         status: this.status,
         qrCode: qrCode || this.qrDataUrl,
@@ -422,7 +501,18 @@ class WhatsAppService {
     } catch (err) {
       this.isInitializing = false;
       const message = err instanceof Error ? err.message : String(err);
+
+      if (message.includes('QR code generation timed out') && this.qrConnectAttempts < 1) {
+        this.qrConnectAttempts += 1;
+        console.warn('[WhatsApp] QR timed out — clearing session and retrying once...');
+        await this.teardownFailedConnection();
+        await this.prepareForQrConnect();
+        return this.initialize();
+      }
+
+      this.qrConnectAttempts = 0;
       this.lastError = message;
+      await this.teardownFailedConnection();
       return {
         status: this.status,
         qrCode: this.qrDataUrl,
@@ -490,6 +580,8 @@ class WhatsAppService {
     }
 
     const sessionCleared = await this.clearSessionDataWithRetry();
+    await this.clearWebJsCache();
+    this.qrConnectAttempts = 0;
     this.isDisconnecting = false;
 
     return {
