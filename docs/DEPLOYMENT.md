@@ -63,6 +63,42 @@ npm run build
 npm run start
 ```
 
+## WhatsApp on Render (or other Linux hosts)
+
+The WhatsApp plugin uses Puppeteer (headless Chrome). On Render you must install Chrome during **build**, not only at runtime.
+
+### Render settings
+
+| Setting | Value |
+|---------|--------|
+| **Build command** | `npm install && npm run build` |
+| **Start command** | `npm run start` |
+
+The repo includes:
+
+- `postinstall` → runs `scripts/ensure-puppeteer-chrome.js` to download Chrome when none is found
+- `Aptfile` → system libraries Chromium needs on Render’s Ubuntu image
+
+After deploy, open **Strapi Admin → WhatsApp → Connect** and scan the QR code.
+
+### If Chrome is still missing
+
+1. Redeploy with a **clear build cache** (Render dashboard → Manual Deploy → Clear build cache).
+2. Or set on Render (Environment):
+   - `PUPPETEER_CACHE_DIR=/opt/render/.cache/puppeteer` (optional; Render often sets this)
+3. Or run locally once and set `CHROME_PATH` / `PUPPETEER_EXECUTABLE_PATH` to the path shown by:
+   ```bash
+   node -e "console.log(require('puppeteer').executablePath())"
+   ```
+
+### Session persistence
+
+WhatsApp login is stored in `WHATSAPP_AUTH_PATH` (default `.wwebjs_auth`). On Render, use a **persistent disk** mounted at your app root (or set `WHATSAPP_AUTH_PATH` to that mount), or you will need to scan the QR again after every redeploy.
+
+### Local development (Windows)
+
+Chrome or Edge is auto-detected. No extra setup unless browsers are installed in non-standard paths — then set `CHROME_PATH`.
+
 ## Docker (Optional)
 
 ```dockerfile

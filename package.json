@@ -14,7 +14,9 @@
     "upgrade": "npx @strapi/upgrade latest",
     "upgrade:dry": "npx @strapi/upgrade latest --dry",
     "seed:student": "node scripts/seed-one-student.js",
-    "seed:student:reset": "node scripts/seed-one-student.js --reset"
+    "seed:student:reset": "node scripts/seed-one-student.js --reset",
+    "postinstall": "node scripts/ensure-puppeteer-chrome.js",
+    "install:chrome": "npx puppeteer browsers install chrome"
   },
   "dependencies": {
     "@strapi/plugin-cloud": "5.49.0",

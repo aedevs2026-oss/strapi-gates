@@ -7,20 +7,42 @@ const fs = require('fs');
 const path = require('path');
 
 function resolveChromeExecutable() {
-  const candidates = [
-    process.env.CHROME_PATH,
-    process.env.PUPPETEER_EXECUTABLE_PATH,
+  const linuxCandidates = [
+    '/usr/bin/google-chrome-stable',
+    '/usr/bin/google-chrome',
+    '/usr/bin/chromium-browser',
+    '/usr/bin/chromium',
+    '/snap/bin/chromium',
+  ];
+
+  const windowsCandidates = [
     'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
     'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
     path.join(process.env.LOCALAPPDATA || '', 'Google', 'Chrome', 'Application', 'chrome.exe'),
     'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
     'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+  ];
+
+  const candidates = [
+    process.env.CHROME_PATH,
+    process.env.PUPPETEER_EXECUTABLE_PATH,
+    ...(process.platform === 'win32' ? windowsCandidates : linuxCandidates),
   ].filter(Boolean);
 
   for (const candidate of candidates) {
     if (fs.existsSync(candidate)) {
       return candidate;
     }
+  }
+
+  try {
+    const puppeteer = require('puppeteer');
+    const bundledPath = puppeteer.executablePath();
+    if (bundledPath && fs.existsSync(bundledPath)) {
+      return bundledPath;
+    }
+  } catch {
+    // puppeteer not installed or Chrome not downloaded yet
   }
 
   return undefined;
