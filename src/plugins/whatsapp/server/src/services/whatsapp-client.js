@@ -2,12 +2,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const { configurePuppeteerEnv } = require(
-  path.join(process.cwd(), 'config', 'puppeteer-env')
-);
-
-configurePuppeteerEnv();
-
 const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
 const QRCode = require('qrcode');
 const { randomUUID } = require('crypto');
