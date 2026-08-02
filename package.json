@@ -4,7 +4,7 @@
   "private": true,
   "description": "School ERP Backend - Parent Mobile App APIs (Strapi v5)",
   "scripts": {
-    "build": "strapi build",
+    "build": "node scripts/ensure-puppeteer-chrome.js && strapi build",
     "console": "strapi console",
     "deploy": "strapi deploy",
     "dev": "strapi develop",

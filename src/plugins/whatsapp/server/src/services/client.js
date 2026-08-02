@@ -6,7 +6,7 @@ const { getWhatsAppService } = require('./whatsapp-client');
 module.exports = ({ strapi }) => {
   const getInstance = () => {
     const dataPath =
-      strapi.config.get('plugin.whatsapp.authDataPath') ||
+      strapi.config.get('plugin::whatsapp.authDataPath') ||
       path.join(process.cwd(), '.wwebjs_auth');
     return getWhatsAppService(dataPath);
   };

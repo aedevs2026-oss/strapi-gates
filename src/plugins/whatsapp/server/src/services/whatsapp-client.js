@@ -2,47 +2,24 @@
 
 const fs = require('fs');
 const path = require('path');
+const { resolveChromeExecutable } = require(
+  path.join(process.cwd(), 'config', 'puppeteer-chrome')
+);
+const { ensurePuppeteerChrome } = require(
+  path.join(process.cwd(), 'scripts', 'ensure-puppeteer-chrome')
+);
 const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
 const QRCode = require('qrcode');
 const { randomUUID } = require('crypto');
 
-function resolveChromeExecutable() {
-  const linuxCandidates = [
-    '/usr/bin/google-chrome-stable',
-    '/usr/bin/google-chrome',
-    '/usr/bin/chromium-browser',
-    '/usr/bin/chromium',
-    '/snap/bin/chromium',
-  ];
-
-  const windowsCandidates = [
-    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
-    path.join(process.env.LOCALAPPDATA || '', 'Google', 'Chrome', 'Application', 'chrome.exe'),
-    'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
-    'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
-  ];
-
-  const candidates = [
-    process.env.CHROME_PATH,
-    process.env.PUPPETEER_EXECUTABLE_PATH,
-    ...(process.platform === 'win32' ? windowsCandidates : linuxCandidates),
-  ].filter(Boolean);
-
-  for (const candidate of candidates) {
-    if (fs.existsSync(candidate)) {
-      return candidate;
-    }
+async function ensureChromeReady() {
+  if (resolveChromeExecutable()) {
+    return resolveChromeExecutable();
   }
 
-  try {
-    const puppeteer = require('puppeteer');
-    const bundledPath = puppeteer.executablePath();
-    if (bundledPath && fs.existsSync(bundledPath)) {
-      return bundledPath;
-    }
-  } catch {
-    // puppeteer not installed or Chrome not downloaded yet
+  if (process.env.RENDER || process.env.RENDER_SERVICE_ID) {
+    console.log('[WhatsApp] Chrome missing at runtime — installing now...');
+    return ensurePuppeteerChrome();
   }
 
   return undefined;
@@ -366,6 +343,7 @@ class WhatsAppService {
   }
 
   async setupAndStartClient() {
+    await ensureChromeReady();
     this.client = new Client(this.buildClientOptions());
     this.attachClientEvents(this.client);
 

@@ -13,7 +13,7 @@ function getPuppeteerCacheDir() {
   }
 
   if (process.platform === 'linux' && isRenderLike()) {
-    return path.join(process.cwd(), '.cache', 'puppeteer');
+    return path.join(process.cwd(), 'puppeteer-cache');
   }
 
   return path.join(os.homedir(), '.cache', 'puppeteer');
