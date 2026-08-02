@@ -11,8 +11,6 @@ configurePuppeteerEnv();
 const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
 const QRCode = require('qrcode');
 const { randomUUID } = require('crypto');
-const fs = require('fs');
-const path = require('path');
 
 function resolveChromeExecutable() {
   const linuxCandidates = [
