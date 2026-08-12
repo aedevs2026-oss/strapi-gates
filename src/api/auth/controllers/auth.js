@@ -4,7 +4,7 @@ const { generateOtp, normalizeMobile, isValidMobile, getOtpExpiry } = require('.
 const { signParentToken } = require('../../../utils/jwt');
 const { badRequest, success, unauthorized } = require('../../../utils/api-response');
 const { isRateLimited, getClientIp } = require('../../../middlewares/rate-limit');
-const { sendOtpWhatsApp, isWhatsAppEnabled } = require('../../../services/whatsapp');
+const { deliverOtp } = require('../../../utils/otp-delivery');
 
 const MAX_OTP_ATTEMPTS = 5;
 
@@ -60,33 +60,24 @@ module.exports = {
       },
     });
 
-    const devMode = process.env.OTP_DEV_MODE === 'true';
     const expiryMinutes = parseInt(process.env.OTP_EXPIRY_MINUTES || '5', 10);
+    const delivery = await deliverOtp({
+      strapi,
+      normalized,
+      otp,
+      expiryMinutes,
+      logLabel: 'PARENT',
+    });
 
-    if (devMode) {
-      strapi.log.info(`[DEV OTP] ${normalized}: ${otp}`);
-    } else if (isWhatsAppEnabled(strapi)) {
-      const whatsappResult = await sendOtpWhatsApp(
-        { mobile: normalized, otp, expiryMinutes },
-        strapi
-      );
-
-      if (!whatsappResult.success) {
-        return ctx.internalServerError(
-          whatsappResult.reason || 'Failed to send OTP via WhatsApp. Please try again later.'
-        );
-      }
-    } else {
-      strapi.log.warn(
-        `[OTP] WhatsApp disabled. Set WHFLOW_ENABLED=true, connect in Admin → WhatsApp, or use OTP_DEV_MODE=true for development. OTP for ${normalized}: ${otp}`
-      );
+    if (delivery.error) {
+      return ctx.internalServerError(delivery.error);
     }
 
     return success(ctx, {
       message: 'OTP sent successfully',
       mobileNumber: normalized,
       expiresInMinutes: expiryMinutes,
-      ...(devMode && { otp }),
+      ...(delivery.exposeOtpInResponse && { otp }),
     });
   },
 
