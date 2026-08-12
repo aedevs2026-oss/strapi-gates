@@ -90,10 +90,10 @@ After deploy, open **Strapi Admin → WhatsApp → Connect** and scan the QR cod
 ### If Chrome is still missing
 
 1. Redeploy with a **clear build cache** (Render dashboard → Manual Deploy → Clear build cache).
-2. On Render, Chrome is stored in the project at `puppeteer-cache/` (not a hidden `.cache` folder, so it survives deploy). Do **not** point `PUPPETEER_CACHE_DIR` at `/opt/render/.cache/puppeteer`.
-3. Optional explicit env on Render:
+2. On Render, Chrome is stored in the project at `puppeteer-cache/` (auto-detected from app root). **Do not** set `PUPPETEER_CACHE_DIR` to `/opt/render/project/src/puppeteer-cache` — that path is wrong when `rootDir` is `strapi-gates`.
+3. Optional explicit env on Render (only if you use a persistent disk mount):
    ```env
-   PUPPETEER_CACHE_DIR=/opt/render/project/src/puppeteer-cache
+   PUPPETEER_CACHE_DIR=./puppeteer-cache
    ```
 4. If the build still fails, check deploy logs for `[postinstall] Cache dir:` diagnostics.
 

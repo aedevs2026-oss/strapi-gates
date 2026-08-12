@@ -28,17 +28,29 @@ async function loadEnsurePuppeteerChrome() {
 }
 
 async function ensureChromeReady() {
-  if (resolveChromeExecutable()) {
-    return resolveChromeExecutable();
+  let chromePath = resolveChromeExecutable();
+  if (chromePath) {
+    return chromePath;
   }
 
-  if (process.env.RENDER || process.env.RENDER_SERVICE_ID) {
-    console.log('[WhatsApp] Chrome missing at runtime — installing now...');
+  const shouldInstall =
+    process.platform === 'linux' ||
+    Boolean(process.env.RENDER || process.env.RENDER_SERVICE_ID || process.env.CI);
+
+  if (shouldInstall) {
+    console.log('[WhatsApp] Chrome missing — installing via Puppeteer...');
     const ensurePuppeteerChrome = await loadEnsurePuppeteerChrome();
-    return ensurePuppeteerChrome();
+    chromePath = await ensurePuppeteerChrome();
   }
 
-  return undefined;
+  chromePath = chromePath || resolveChromeExecutable();
+  if (!chromePath) {
+    throw new Error(
+      'Chrome not found. On Render: use build command `npm ci && NODE_OPTIONS="--max-old-space-size=2048" npm run build:render`, remove any custom PUPPETEER_CACHE_DIR env var, and redeploy with Clear build cache.'
+    );
+  }
+
+  return chromePath;
 }
 
 function isSlowEnvironment() {
@@ -342,8 +354,13 @@ class WhatsAppService {
     return [...this.messageLogs].reverse();
   }
 
-  buildClientOptions() {
+  buildClientOptions(chromePath) {
     const { LocalAuth } = getWhatsAppWeb();
+    const executablePath = chromePath || resolveChromeExecutable();
+    if (!executablePath) {
+      throw new Error('Chrome executable path is missing');
+    }
+
     const authStrategy = wrapSafeLocalAuthLogout(
       new LocalAuth({
         dataPath: this.dataPath,
@@ -364,7 +381,7 @@ class WhatsAppService {
       },
       puppeteer: {
         headless: true,
-        executablePath: resolveChromeExecutable(),
+        executablePath,
         args: PUPPETEER_ARGS,
         protocolTimeout: getAuthTimeoutMs(),
         timeout: getAuthTimeoutMs(),
@@ -434,9 +451,9 @@ class WhatsAppService {
   }
 
   async setupAndStartClient() {
-    await ensureChromeReady();
+    const chromePath = await ensureChromeReady();
     const { Client } = getWhatsAppWeb();
-    this.client = new Client(this.buildClientOptions());
+    this.client = new Client(this.buildClientOptions(chromePath));
     this.attachClientEvents(this.client);
 
     await this.client.initialize().catch((err) => {

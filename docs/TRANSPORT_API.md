@@ -72,7 +72,7 @@ Parent app joins Socket.IO room via `join:parent` with `{ busId }` for real-time
 
 Open Strapi admin → **Live Bus Tracking** in the sidebar.
 
-Uses OpenStreetMap tiles: `https://tile.openstreetmap.org/{z}/{x}/{y}.png`
+Uses CARTO basemap tiles (OpenStreetMap data, production-friendly): `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`
 
 ## Setup
 

@@ -17,7 +17,10 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-const OSM_TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const CARTO_TILE_URL =
+  'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+const MAP_ATTRIBUTION =
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
 
 const getSocketUrl = () => {
   if (typeof window === 'undefined') return '';
@@ -163,7 +166,12 @@ const LiveTrackingPage = () => {
             style={{ height: '70vh', width: '100%' }}
             scrollWheelZoom
           >
-            <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' url={OSM_TILE_URL} />
+            <TileLayer
+              attribution={MAP_ATTRIBUTION}
+              url={CARTO_TILE_URL}
+              subdomains="abcd"
+              maxZoom={20}
+            />
             <MapAutoFit locations={locations} />
             {locations.map((loc) => (
               <Marker

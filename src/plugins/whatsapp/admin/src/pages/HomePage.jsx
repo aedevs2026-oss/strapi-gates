@@ -68,7 +68,14 @@ const HomePage = () => {
       }
     } catch (err) {
       setStatus('disconnected');
-      setError('Failed to initialize WhatsApp. Ensure Chrome or Edge is installed.');
+      const apiError =
+        err?.response?.data?.error ||
+        err?.response?.data?.message ||
+        err?.message;
+      setError(
+        apiError ||
+          'Failed to initialize WhatsApp. On Render, redeploy with Clear build cache and build:render.'
+      );
     } finally {
       setLoading(false);
     }
