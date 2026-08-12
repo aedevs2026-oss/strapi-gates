@@ -107,6 +107,15 @@ function logDiagnostics() {
 }
 
 async function ensurePuppeteerChrome() {
+  if (process.env.SKIP_PUPPETEER_INSTALL === 'true') {
+    const chromePath = resolveChromeExecutable();
+    if (chromePath) {
+      console.log(`[puppeteer] SKIP_PUPPETEER_INSTALL=true — using ${chromePath}`);
+      return chromePath;
+    }
+    console.warn('[puppeteer] SKIP_PUPPETEER_INSTALL=true and no Chrome found — skipping download.');
+    return null;
+  }
   let chromePath = resolveChromeExecutable();
 
   if (!chromePath) {
@@ -135,7 +144,10 @@ async function ensurePuppeteerChrome() {
 }
 
 async function main() {
-  await ensurePuppeteerChrome();
+  const result = await ensurePuppeteerChrome();
+  if (!result && process.env.SKIP_PUPPETEER_INSTALL === 'true') {
+    return;
+  }
 }
 
 if (require.main === module) {

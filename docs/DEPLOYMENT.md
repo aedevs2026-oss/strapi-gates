@@ -71,8 +71,14 @@ The WhatsApp plugin uses Puppeteer (headless Chrome). On Render you must install
 
 | Setting | Value |
 |---------|--------|
-| **Build command** | `npm install && npm run build` |
+| **Root directory** | `strapi-gates` |
+| **Build command** | `npm ci && NODE_OPTIONS="--max-old-space-size=2048" npm run build:render` |
 | **Start command** | `npm run start` |
+| **Instance type** | **Starter (512 MB) minimum** — use **Standard (2 GB)** if startup still OOMs |
+
+The repo includes a `render.yaml` blueprint with these defaults.
+
+**Why deploys fail with "No open ports" / OOM:** Strapi must finish booting and bind to `PORT` before Render marks the service healthy. On 512 MB instances, loading Puppeteer/WhatsApp at startup can exhaust memory and crash before the port opens. The app now lazy-loads WhatsApp only when you connect from Admin; Chrome is installed during **build** (`postinstall` + `build:render`), not at runtime startup.
 
 The repo includes:
 

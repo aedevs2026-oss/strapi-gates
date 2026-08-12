@@ -24,7 +24,19 @@ const LINUX_CHROME_PATHS = [
 ];
 
 function pathExists(candidate) {
-  return typeof candidate === 'string' && candidate.length > 0 && fs.existsSync(candidate);
+  if (candidate == null) {
+    return false;
+  }
+
+  if (typeof candidate === 'string') {
+    return candidate.length > 0 && fs.existsSync(candidate);
+  }
+
+  if (Buffer.isBuffer(candidate) || candidate instanceof URL) {
+    return fs.existsSync(candidate);
+  }
+
+  return false;
 }
 
 function getChromePathRecordFile() {

@@ -5,12 +5,27 @@ const path = require('path');
 const { resolveChromeExecutable } = require(
   path.join(process.cwd(), 'config', 'puppeteer-chrome')
 );
-const { ensurePuppeteerChrome } = require(
-  path.join(process.cwd(), 'scripts', 'ensure-puppeteer-chrome')
-);
-const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
-const QRCode = require('qrcode');
 const { randomUUID } = require('crypto');
+
+let whatsappWebModule;
+function getWhatsAppWeb() {
+  if (!whatsappWebModule) {
+    whatsappWebModule = require('whatsapp-web.js');
+  }
+  return whatsappWebModule;
+}
+
+let qrcodeModule;
+function getQRCode() {
+  if (!qrcodeModule) {
+    qrcodeModule = require('qrcode');
+  }
+  return qrcodeModule;
+}
+
+async function loadEnsurePuppeteerChrome() {
+  return require(path.join(process.cwd(), 'scripts', 'ensure-puppeteer-chrome')).ensurePuppeteerChrome;
+}
 
 async function ensureChromeReady() {
   if (resolveChromeExecutable()) {
@@ -19,6 +34,7 @@ async function ensureChromeReady() {
 
   if (process.env.RENDER || process.env.RENDER_SERVICE_ID) {
     console.log('[WhatsApp] Chrome missing at runtime — installing now...');
+    const ensurePuppeteerChrome = await loadEnsurePuppeteerChrome();
     return ensurePuppeteerChrome();
   }
 
@@ -50,7 +66,7 @@ function wrapSafeLocalAuthLogout(authStrategy) {
 
   authStrategy.logout = async function safeLogout() {
     const dir = userDataDir();
-    if (!dir || !fs.existsSync(dir)) {
+    if (!dir || typeof dir !== 'string' || !fs.existsSync(dir)) {
       return;
     }
 
@@ -327,6 +343,7 @@ class WhatsAppService {
   }
 
   buildClientOptions() {
+    const { LocalAuth } = getWhatsAppWeb();
     const authStrategy = wrapSafeLocalAuthLogout(
       new LocalAuth({
         dataPath: this.dataPath,
@@ -367,7 +384,7 @@ class WhatsAppService {
     client.on('qr', async (qr) => {
       this.qrCode = qr;
       try {
-        this.qrDataUrl = await QRCode.toDataURL(qr, { width: 280, margin: 2 });
+        this.qrDataUrl = await getQRCode().toDataURL(qr, { width: 280, margin: 2 });
         this.resolveQrWaiters(this.qrDataUrl);
       } catch (err) {
         this.lastError = err instanceof Error ? err.message : String(err);
@@ -418,6 +435,7 @@ class WhatsAppService {
 
   async setupAndStartClient() {
     await ensureChromeReady();
+    const { Client } = getWhatsAppWeb();
     this.client = new Client(this.buildClientOptions());
     this.attachClientEvents(this.client);
 
@@ -655,6 +673,7 @@ class WhatsAppService {
         this.ensureClientAvailable();
 
         if (imageUrl) {
+          const { MessageMedia } = getWhatsAppWeb();
           const media = await MessageMedia.fromUrl(imageUrl, { unsafeMime: true });
           await this.client.sendMessage(chatId, media, {
             caption: text || undefined,

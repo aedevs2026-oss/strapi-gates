@@ -1,14 +1,22 @@
 'use strict';
 
 const path = require('path');
-const { getWhatsAppService } = require('./whatsapp-client');
+
+let getWhatsAppServiceFn;
+
+function resolveGetWhatsAppService() {
+  if (!getWhatsAppServiceFn) {
+    ({ getWhatsAppService: getWhatsAppServiceFn } = require('./whatsapp-client'));
+  }
+  return getWhatsAppServiceFn;
+}
 
 module.exports = ({ strapi }) => {
   const getInstance = () => {
     const dataPath =
       strapi.config.get('plugin::whatsapp.authDataPath') ||
       path.join(process.cwd(), '.wwebjs_auth');
-    return getWhatsAppService(dataPath);
+    return resolveGetWhatsAppService()(dataPath);
   };
 
   return {
