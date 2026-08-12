@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "trips",
+  "info": {
+    "singularName": "trip",
+    "pluralName": "trips",
+    "displayName": "Trip",
+    "description": "Bus trip records with start/end tracking"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "driver": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::driver.driver",
+      "inversedBy": "trips"
+    },
+    "bus": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::bus.bus",
+      "inversedBy": "trips"
+    },
+    "route": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::route.route",
+      "inversedBy": "trips"
+    },
+    "date": {
+      "type": "date"
+    },
+    "startTime": {
+      "type": "datetime"
+    },
+    "endTime": {
+      "type": "datetime"
+    },
+    "distance": {
+      "type": "decimal",
+      "default": 0
+    },
+    "duration": {
+      "type": "integer",
+      "default": 0
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["Running", "Completed", "Cancelled"],
+      "default": "Running",
+      "required": true
+    },
+    "liveLocations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::live-location.live-location",
+      "mappedBy": "trip"
+    }
+  }
+}

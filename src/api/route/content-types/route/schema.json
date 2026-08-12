@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "routes",
+  "info": {
+    "singularName": "route",
+    "pluralName": "routes",
+    "displayName": "Route",
+    "description": "Bus transport routes"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "startPoint": {
+      "type": "string"
+    },
+    "endPoint": {
+      "type": "string"
+    },
+    "routeStatus": {
+      "type": "enumeration",
+      "enum": ["active", "inactive"],
+      "default": "active",
+      "required": true
+    },
+    "school": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::school.school"
+    },
+    "buses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::bus.bus",
+      "mappedBy": "route"
+    },
+    "trips": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::trip.trip",
+      "mappedBy": "route"
+    }
+  }
+}

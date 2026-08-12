@@ -114,43 +114,6 @@ export interface AdminApiTokenPermission extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface AdminAuditLog extends Struct.CollectionTypeSchema {
-  collectionName: 'strapi_audit_logs';
-  info: {
-    displayName: 'Audit Log';
-    pluralName: 'audit-logs';
-    singularName: 'audit-log';
-  };
-  options: {
-    draftAndPublish: false;
-    timestamps: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    action: Schema.Attribute.String & Schema.Attribute.Required;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    date: Schema.Attribute.DateTime & Schema.Attribute.Required;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'admin::audit-log'> &
-      Schema.Attribute.Private;
-    payload: Schema.Attribute.JSON;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    user: Schema.Attribute.Relation<'oneToOne', 'admin::user'>;
-  };
-}
-
 export interface AdminPermission extends Struct.CollectionTypeSchema {
   collectionName: 'admin_permissions';
   info: {
@@ -597,6 +560,50 @@ export interface ApiAttendanceAttendance extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiBusBus extends Struct.CollectionTypeSchema {
+  collectionName: 'buses';
+  info: {
+    description: 'School transport buses';
+    displayName: 'Bus';
+    pluralName: 'buses';
+    singularName: 'bus';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    busNumber: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    busStatus: Schema.Attribute.Enumeration<
+      ['active', 'inactive', 'maintenance']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'active'>;
+    capacity: Schema.Attribute.Integer;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    driver: Schema.Attribute.Relation<'oneToOne', 'api::driver.driver'>;
+    liveLocations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::live-location.live-location'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::bus.bus'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    registrationNumber: Schema.Attribute.String;
+    route: Schema.Attribute.Relation<'manyToOne', 'api::route.route'>;
+    school: Schema.Attribute.Relation<'manyToOne', 'api::school.school'>;
+    students: Schema.Attribute.Relation<'oneToMany', 'api::student.student'>;
+    trips: Schema.Attribute.Relation<'oneToMany', 'api::trip.trip'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiCircularCircular extends Struct.CollectionTypeSchema {
   collectionName: 'circulars';
   info: {
@@ -725,6 +732,50 @@ export interface ApiContactDetailContactDetail
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     workingHours: Schema.Attribute.String;
+  };
+}
+
+export interface ApiDriverDriver extends Struct.CollectionTypeSchema {
+  collectionName: 'drivers';
+  info: {
+    description: 'School bus drivers';
+    displayName: 'Driver';
+    pluralName: 'drivers';
+    singularName: 'driver';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    bus: Schema.Attribute.Relation<'oneToOne', 'api::bus.bus'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    deviceToken: Schema.Attribute.String;
+    driverStatus: Schema.Attribute.Enumeration<['active', 'inactive']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'active'>;
+    lastLoginAt: Schema.Attribute.DateTime;
+    licenseNumber: Schema.Attribute.String;
+    liveLocations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::live-location.live-location'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::driver.driver'
+    > &
+      Schema.Attribute.Private;
+    mobile: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    trips: Schema.Attribute.Relation<'oneToMany', 'api::trip.trip'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1039,6 +1090,44 @@ export interface ApiHomeworkHomework extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiLiveLocationLiveLocation
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'live_locations';
+  info: {
+    description: 'Real-time GPS coordinates from driver devices';
+    displayName: 'Live Location';
+    pluralName: 'live-locations';
+    singularName: 'live-location';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    accuracy: Schema.Attribute.Decimal;
+    bus: Schema.Attribute.Relation<'manyToOne', 'api::bus.bus'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    driver: Schema.Attribute.Relation<'manyToOne', 'api::driver.driver'>;
+    heading: Schema.Attribute.Decimal;
+    latitude: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::live-location.live-location'
+    > &
+      Schema.Attribute.Private;
+    longitude: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    speed: Schema.Attribute.Decimal;
+    timestamp: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    trip: Schema.Attribute.Relation<'manyToOne', 'api::trip.trip'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiNotificationNotification
   extends Struct.CollectionTypeSchema {
   collectionName: 'notifications';
@@ -1191,6 +1280,41 @@ export interface ApiPermissionPermission extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiRouteRoute extends Struct.CollectionTypeSchema {
+  collectionName: 'routes';
+  info: {
+    description: 'Bus transport routes';
+    displayName: 'Route';
+    pluralName: 'routes';
+    singularName: 'route';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    buses: Schema.Attribute.Relation<'oneToMany', 'api::bus.bus'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    endPoint: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::route.route'> &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    routeStatus: Schema.Attribute.Enumeration<['active', 'inactive']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'active'>;
+    school: Schema.Attribute.Relation<'manyToOne', 'api::school.school'>;
+    startPoint: Schema.Attribute.String;
+    trips: Schema.Attribute.Relation<'oneToMany', 'api::trip.trip'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiSchoolSchool extends Struct.SingleTypeSchema {
   collectionName: 'schools';
   info: {
@@ -1286,6 +1410,7 @@ export interface ApiStudentStudent extends Struct.CollectionTypeSchema {
       'api::attendance.attendance'
     >;
     bloodGroup: Schema.Attribute.String;
+    bus: Schema.Attribute.Relation<'manyToOne', 'api::bus.bus'>;
     class: Schema.Attribute.Relation<'manyToOne', 'api::class.class'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1526,6 +1651,48 @@ export interface ApiTimetableTimetable extends Struct.CollectionTypeSchema {
     startTime: Schema.Attribute.Time & Schema.Attribute.Required;
     subject: Schema.Attribute.Relation<'manyToOne', 'api::subject.subject'>;
     teacher: Schema.Attribute.Relation<'manyToOne', 'api::teacher.teacher'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTripTrip extends Struct.CollectionTypeSchema {
+  collectionName: 'trips';
+  info: {
+    description: 'Bus trip records with start/end tracking';
+    displayName: 'Trip';
+    pluralName: 'trips';
+    singularName: 'trip';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    bus: Schema.Attribute.Relation<'manyToOne', 'api::bus.bus'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date;
+    distance: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
+    driver: Schema.Attribute.Relation<'manyToOne', 'api::driver.driver'>;
+    duration: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    endTime: Schema.Attribute.DateTime;
+    liveLocations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::live-location.live-location'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::trip.trip'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    route: Schema.Attribute.Relation<'manyToOne', 'api::route.route'>;
+    startTime: Schema.Attribute.DateTime;
+    status: Schema.Attribute.Enumeration<
+      ['Running', 'Completed', 'Cancelled']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Running'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -2037,7 +2204,6 @@ declare module '@strapi/strapi' {
     export interface ContentTypeSchemas {
       'admin::api-token': AdminApiToken;
       'admin::api-token-permission': AdminApiTokenPermission;
-      'admin::audit-log': AdminAuditLog;
       'admin::permission': AdminPermission;
       'admin::role': AdminRole;
       'admin::session': AdminSession;
@@ -2047,9 +2213,11 @@ declare module '@strapi/strapi' {
       'api::academic-year.academic-year': ApiAcademicYearAcademicYear;
       'api::assignment.assignment': ApiAssignmentAssignment;
       'api::attendance.attendance': ApiAttendanceAttendance;
+      'api::bus.bus': ApiBusBus;
       'api::circular.circular': ApiCircularCircular;
       'api::class.class': ApiClassClass;
       'api::contact-detail.contact-detail': ApiContactDetailContactDetail;
+      'api::driver.driver': ApiDriverDriver;
       'api::exam-result.exam-result': ApiExamResultExamResult;
       'api::exam-schedule.exam-schedule': ApiExamScheduleExamSchedule;
       'api::exam.exam': ApiExamExam;
@@ -2058,10 +2226,12 @@ declare module '@strapi/strapi' {
       'api::gallery.gallery': ApiGalleryGallery;
       'api::holiday.holiday': ApiHolidayHoliday;
       'api::homework.homework': ApiHomeworkHomework;
+      'api::live-location.live-location': ApiLiveLocationLiveLocation;
       'api::notification.notification': ApiNotificationNotification;
       'api::otp-record.otp-record': ApiOtpRecordOtpRecord;
       'api::parent.parent': ApiParentParent;
       'api::permission.permission': ApiPermissionPermission;
+      'api::route.route': ApiRouteRoute;
       'api::school.school': ApiSchoolSchool;
       'api::section.section': ApiSectionSection;
       'api::student.student': ApiStudentStudent;
@@ -2069,6 +2239,7 @@ declare module '@strapi/strapi' {
       'api::teacher-assignment.teacher-assignment': ApiTeacherAssignmentTeacherAssignment;
       'api::teacher.teacher': ApiTeacherTeacher;
       'api::timetable.timetable': ApiTimetableTimetable;
+      'api::trip.trip': ApiTripTrip;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

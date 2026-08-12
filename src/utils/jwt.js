@@ -4,9 +4,11 @@ const jwt = require('jsonwebtoken');
 
 const getParentSecret = () => process.env.PARENT_JWT_SECRET || process.env.JWT_SECRET;
 const getTeacherSecret = () => process.env.TEACHER_JWT_SECRET || process.env.JWT_SECRET;
+const getDriverSecret = () => process.env.DRIVER_JWT_SECRET || process.env.JWT_SECRET;
 
 const getParentExpiresIn = () => process.env.PARENT_JWT_EXPIRES_IN || '30d';
 const getTeacherExpiresIn = () => process.env.TEACHER_JWT_EXPIRES_IN || '30d';
+const getDriverExpiresIn = () => process.env.DRIVER_JWT_EXPIRES_IN || '30d';
 
 const signParentToken = (payload) => {
   return jwt.sign({ ...payload, type: 'parent' }, getParentSecret(), {
@@ -28,6 +30,16 @@ const verifyTeacherToken = (token) => {
   return jwt.verify(token, getTeacherSecret());
 };
 
+const signDriverToken = (payload) => {
+  return jwt.sign({ ...payload, type: 'driver' }, getDriverSecret(), {
+    expiresIn: getDriverExpiresIn(),
+  });
+};
+
+const verifyDriverToken = (token) => {
+  return jwt.verify(token, getDriverSecret());
+};
+
 const extractBearerToken = (ctx) => {
   const authHeader = ctx.request.headers.authorization;
   if (!authHeader?.startsWith('Bearer ')) {
@@ -41,5 +53,7 @@ module.exports = {
   verifyParentToken,
   signTeacherToken,
   verifyTeacherToken,
+  signDriverToken,
+  verifyDriverToken,
   extractBearerToken,
 };

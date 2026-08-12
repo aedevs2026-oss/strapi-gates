@@ -48,6 +48,7 @@ const middlewares = [
   'strapi::session',
   'strapi::favicon',
   'strapi::public',
+  'global::error-logger',
   'global::rate-limit',
   'global::log-teacher-save',
 ];

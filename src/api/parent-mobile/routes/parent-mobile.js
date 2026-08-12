@@ -6,6 +6,7 @@ module.exports = {
   routes: [
     { method: 'GET', path: '/parent/students', handler: 'parent-mobile.getStudents', config: { auth: false, policies: [parentPolicy] } },
     { method: 'GET', path: '/parent/students/:studentId', handler: 'parent-mobile.getStudentProfile', config: { auth: false, policies: [parentPolicy] } },
+    { method: 'GET', path: '/parent/students/:studentId/bus-tracking', handler: 'parent-mobile.getStudentBusTracking', config: { auth: false, policies: [parentPolicy] } },
     { method: 'GET', path: '/parent/homework', handler: 'parent-mobile.getHomework', config: { auth: false, policies: [parentPolicy] } },
     { method: 'GET', path: '/parent/assignments', handler: 'parent-mobile.getAssignments', config: { auth: false, policies: [parentPolicy] } },
     { method: 'GET', path: '/parent/attendance', handler: 'parent-mobile.getAttendance', config: { auth: false, policies: [parentPolicy] } },

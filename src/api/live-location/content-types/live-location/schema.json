@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "live_locations",
+  "info": {
+    "singularName": "live-location",
+    "pluralName": "live-locations",
+    "displayName": "Live Location",
+    "description": "Real-time GPS coordinates from driver devices"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "driver": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::driver.driver",
+      "inversedBy": "liveLocations"
+    },
+    "bus": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::bus.bus",
+      "inversedBy": "liveLocations"
+    },
+    "trip": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::trip.trip",
+      "inversedBy": "liveLocations"
+    },
+    "latitude": {
+      "type": "decimal",
+      "required": true
+    },
+    "longitude": {
+      "type": "decimal",
+      "required": true
+    },
+    "speed": {
+      "type": "decimal"
+    },
+    "heading": {
+      "type": "decimal"
+    },
+    "accuracy": {
+      "type": "decimal"
+    },
+    "timestamp": {
+      "type": "datetime",
+      "required": true
+    }
+  }
+}

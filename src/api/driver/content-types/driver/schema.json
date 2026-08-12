@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "drivers",
+  "info": {
+    "singularName": "driver",
+    "pluralName": "drivers",
+    "displayName": "Driver",
+    "description": "School bus drivers"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "mobile": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "licenseNumber": {
+      "type": "string"
+    },
+    "driverStatus": {
+      "type": "enumeration",
+      "enum": ["active", "inactive"],
+      "default": "active",
+      "required": true
+    },
+    "lastLoginAt": {
+      "type": "datetime"
+    },
+    "deviceToken": {
+      "type": "string"
+    },
+    "bus": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::bus.bus",
+      "mappedBy": "driver"
+    },
+    "trips": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::trip.trip",
+      "mappedBy": "driver"
+    },
+    "liveLocations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::live-location.live-location",
+      "mappedBy": "driver"
+    }
+  }
+}

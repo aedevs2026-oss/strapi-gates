@@ -118,6 +118,8 @@ const seedTeacherPermissions = async (strapi) => {
   }
 };
 
+const { initSocketServer } = require('./services/socket');
+
 module.exports = {
   register({ strapi }) {
     strapi.customSchoolErp = {
@@ -135,6 +137,16 @@ module.exports = {
     await cleanupExpiredOtps(strapi);
 
     setInterval(() => cleanupExpiredOtps(strapi), 15 * 60 * 1000);
+
+    // Initialize Socket.IO once the HTTP server is listening
+    const httpServer = strapi.server?.httpServer;
+    if (httpServer) {
+      if (httpServer.listening) {
+        initSocketServer(strapi);
+      } else {
+        httpServer.once('listening', () => initSocketServer(strapi));
+      }
+    }
 
     strapi.log.info('School ERP backend initialized');
   },

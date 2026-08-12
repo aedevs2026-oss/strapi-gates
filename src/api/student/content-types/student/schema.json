@@ -94,6 +94,12 @@
       "relation": "oneToMany",
       "target": "api::fee-payment.fee-payment",
       "mappedBy": "student"
+    },
+    "bus": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::bus.bus",
+      "inversedBy": "students"
     }
   }
 }

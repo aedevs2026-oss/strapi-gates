@@ -9,6 +9,7 @@ const {
   forbidden,
   notFound,
 } = require('../../../utils/api-response');
+const { formatLocationPayload } = require('../../../utils/transport');
 
 const ensureStudentAccess = (parent, studentDocumentId) => {
   const studentIds = getStudentIds(parent);
@@ -45,7 +46,13 @@ module.exports = {
 
     const student = await strapi.documents('api::student.student').findOne({
       documentId: studentId,
-      populate: ['photo', 'class', 'section', 'parent'],
+      populate: {
+        photo: true,
+        class: true,
+        section: true,
+        parent: true,
+        bus: { populate: ['route'] },
+      },
     });
 
     if (!student) {
@@ -470,5 +477,106 @@ module.exports = {
     ]);
 
     return success(ctx, data, { pagination: { start, limit, total } });
+  },
+
+  /**
+   * GET /api/parent/students/:studentId/bus-tracking
+   * Returns assigned bus, route, driver, and latest live location for the child's bus.
+   */
+  async getStudentBusTracking(ctx) {
+    const { studentId } = ctx.params;
+    const parent = ctx.state.parent;
+
+    if (!ensureStudentAccess(parent, studentId)) {
+      return forbidden(ctx, 'You do not have access to this student.');
+    }
+
+    const student = await strapi.documents('api::student.student').findOne({
+      documentId: studentId,
+      populate: {
+        bus: {
+          populate: {
+            route: true,
+            driver: true,
+          },
+        },
+      },
+    });
+
+    if (!student) {
+      return notFound(ctx, 'Student not found.');
+    }
+
+    if (!student.bus) {
+      return success(ctx, {
+        assigned: false,
+        student: {
+          documentId: student.documentId,
+          name: student.studentName,
+        },
+        message: 'No school bus assigned to this student.',
+      });
+    }
+
+    const bus = student.bus;
+    const route = bus.route;
+    const driver = bus.driver;
+
+    const runningTrip = await strapi.documents('api::trip.trip').findFirst({
+      filters: {
+        bus: { documentId: bus.documentId },
+        status: 'Running',
+      },
+      sort: 'startTime:desc',
+    });
+
+    let location = null;
+    if (runningTrip) {
+      const latest = await strapi.documents('api::live-location.live-location').findFirst({
+        filters: { trip: { documentId: runningTrip.documentId } },
+        sort: 'timestamp:desc',
+      });
+
+      if (latest) {
+        location = formatLocationPayload(latest, driver, bus, route, runningTrip);
+      }
+    }
+
+    return success(ctx, {
+      assigned: true,
+      student: {
+        documentId: student.documentId,
+        name: student.studentName,
+      },
+      bus: {
+        documentId: bus.documentId,
+        busNumber: bus.busNumber,
+        registrationNumber: bus.registrationNumber,
+      },
+      route: route
+        ? {
+            documentId: route.documentId,
+            name: route.name,
+            startPoint: route.startPoint,
+            endPoint: route.endPoint,
+          }
+        : null,
+      driver: driver
+        ? {
+            documentId: driver.documentId,
+            name: driver.name,
+          }
+        : null,
+      trip: runningTrip
+        ? {
+            documentId: runningTrip.documentId,
+            status: runningTrip.status,
+            startTime: runningTrip.startTime,
+            distance: Number(runningTrip.distance || 0),
+          }
+        : null,
+      location,
+      isLive: Boolean(runningTrip && location),
+    });
   },
 };

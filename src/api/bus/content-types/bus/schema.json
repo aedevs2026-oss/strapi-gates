@@ -1,0 +1,67 @@
+{
+  "kind": "collectionType",
+  "collectionName": "buses",
+  "info": {
+    "singularName": "bus",
+    "pluralName": "buses",
+    "displayName": "Bus",
+    "description": "School transport buses"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "busNumber": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "registrationNumber": {
+      "type": "string"
+    },
+    "capacity": {
+      "type": "integer"
+    },
+    "busStatus": {
+      "type": "enumeration",
+      "enum": ["active", "inactive", "maintenance"],
+      "default": "active",
+      "required": true
+    },
+    "school": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::school.school"
+    },
+    "route": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::route.route",
+      "inversedBy": "buses"
+    },
+    "driver": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::driver.driver",
+      "inversedBy": "bus"
+    },
+    "trips": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::trip.trip",
+      "mappedBy": "bus"
+    },
+    "liveLocations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::live-location.live-location",
+      "mappedBy": "bus"
+    },
+    "students": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::student.student",
+      "mappedBy": "bus"
+    }
+  }
+}
